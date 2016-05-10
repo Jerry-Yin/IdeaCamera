@@ -37,4 +37,19 @@ public class StringUtils {
         }
         return imgUris;
     }
+
+    /**截取字符串
+     * 去除开头的 "null"
+     * @param uri
+     * @return
+     */
+    public static String cutStringNull(String uri){
+        if (!uri.startsWith("null")){
+            return uri;
+        }else {
+            uri = uri.substring(4);         //方法1 直接截取
+//            uri = uri.split("ll")[1];     //方法2 分割
+            return cutStringNull(uri);
+        }
+    }
 }

@@ -20,6 +20,10 @@ public class PhotoItem implements Parcelable, Comparable<PhotoItem> {
         this.uploaded = false;
     }
 
+    public PhotoItem(String imageUri) {
+        this.imageUri = imageUri;
+    }
+
     public boolean isUploaded() {
         return uploaded;
     }

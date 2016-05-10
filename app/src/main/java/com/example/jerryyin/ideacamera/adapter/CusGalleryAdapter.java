@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
@@ -78,7 +79,13 @@ public class CusGalleryAdapter extends BaseAdapter {
         }
 
         //设置gallery图标
-        if (mPhotoItems.get(position) == null || mPhotoItems.get(position).get(0)==null) {
+        if (mPhotoItems.size()<position+1){
+            Bitmap bitmap = ImageUtils.getImageBitmap(mContext.getResources(),
+                    mDefaultIconID);
+            BitmapDrawable drawable = new BitmapDrawable(bitmap);
+            drawable.setAntiAlias(true); // 消除锯齿
+            holder.img.setImageDrawable(drawable);
+        }else if (mPhotoItems.get(position) == null || mPhotoItems.get(position).get(0)==null) {
             //默认图标
             Bitmap bitmap = ImageUtils.getImageBitmap(mContext.getResources(),
                     mDefaultIconID);
@@ -102,7 +109,17 @@ public class CusGalleryAdapter extends BaseAdapter {
 
 //        Bitmap bitmap = Bi
 
-        Gallery.LayoutParams params = new Gallery.LayoutParams(480, 640);   //画廊效果的单个ITEM大小
+        //获取设备屏幕尺寸
+        WindowManager windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        int width = windowManager.getDefaultDisplay().getWidth();
+        int height = windowManager.getDefaultDisplay().getHeight();
+        Log.d(TAG, "屏幕尺寸：width = "+width+" height = "+height);
+        Gallery.LayoutParams params = null;
+        if (width > 500){
+            params = new Gallery.LayoutParams(480, 640);   //画廊效果的单个ITEM大小
+        }else {
+            params = new Gallery.LayoutParams(240, 320);   //画廊效果的单个ITEM大小
+        }
         convertView.setLayoutParams(params);
         return convertView;
 

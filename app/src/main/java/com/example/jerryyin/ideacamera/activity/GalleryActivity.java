@@ -12,9 +12,12 @@ import com.example.jerryyin.ideacamera.R;
 import com.example.jerryyin.ideacamera.adapter.CusGalleryAdapter;
 import com.example.jerryyin.ideacamera.base.BaseActivity;
 import com.example.jerryyin.ideacamera.model.Album;
+import com.example.jerryyin.ideacamera.model.CameraModel;
 import com.example.jerryyin.ideacamera.model.PhotoItem;
+import com.example.jerryyin.ideacamera.util.CameraModelService;
 import com.example.jerryyin.ideacamera.util.common.ImageLoaderUtils;
 import com.example.jerryyin.ideacamera.util.common.ImageUtils;
+import com.example.jerryyin.ideacamera.util.common.StringUtils;
 import com.example.jerryyin.ideacamera.view.CustomGallery;
 
 import java.util.ArrayList;
@@ -44,6 +47,8 @@ public class GalleryActivity extends BaseActivity implements AdapterView.OnItemC
     private List<String> mAlbumPaths = new ArrayList<String>();
     private List<List<PhotoItem>> mPhotoItems = new ArrayList<>();  //每个相册中的第一张照片
 
+    private CameraModelService mModelService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +61,15 @@ public class GalleryActivity extends BaseActivity implements AdapterView.OnItemC
     }
 
     private void initData() {
-
-
         mAlbumMaps = ImageUtils.findGalleries(this, mAlbumPaths, 0);
-
         if (mAlbumPaths.size() >= 0) {
             addGalleryItem();
+        }
+
+        mModelService = new CameraModelService(this);
+        List<CameraModel> modelList = mModelService.queryAllModel();
+        if (modelList.size()>0){
+            addModelItem(modelList);
         }
     }
 
@@ -78,11 +86,29 @@ public class GalleryActivity extends BaseActivity implements AdapterView.OnItemC
         }
     }
 
+
+    /**
+     * 添加model中的内容
+     * @param modelList
+     */
+    private void addModelItem(List<CameraModel> modelList) {
+        for (CameraModel model:modelList){
+            mListModelNames.add(model.name);
+            List<String> imgUris = model.imgUris;
+            PhotoItem photoItem = null;
+            List<PhotoItem> photoItemList = new ArrayList<>();
+            for (String uri: imgUris){
+                photoItem = new PhotoItem(StringUtils.cutStringNull(uri));
+                photoItemList.add(photoItem);
+            }
+            mPhotoItems.add(photoItemList);
+        }
+    }
+
     private void setupView() {
         mGalleryAdapter = new CusGalleryAdapter(this, mPhotoItems, mListModelNames);
         mGallery.setAdapter(mGalleryAdapter);
         mGallery.setOnItemClickListener(this);
-
 //        mGalleryAdapter.getView()
     }
 
@@ -91,7 +117,7 @@ public class GalleryActivity extends BaseActivity implements AdapterView.OnItemC
         Intent intent = new Intent(GalleryActivity.this, AlbumActivity.class);
         LinearLayout layout = (LinearLayout) view;
         TextView name = (TextView) layout.getChildAt(1);
-//        intent.putExtra("model", name.getText());
+        intent.putExtra("title", name.getText());
         intent.putExtra("position", position);
         startActivity(intent);
     }

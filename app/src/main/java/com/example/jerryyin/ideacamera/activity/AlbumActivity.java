@@ -14,8 +14,11 @@ import com.example.jerryyin.ideacamera.R;
 import com.example.jerryyin.ideacamera.adapter.GridViewAdapter;
 import com.example.jerryyin.ideacamera.base.BaseActivity;
 import com.example.jerryyin.ideacamera.model.Album;
+import com.example.jerryyin.ideacamera.model.CameraModel;
 import com.example.jerryyin.ideacamera.model.PhotoItem;
+import com.example.jerryyin.ideacamera.util.CameraModelService;
 import com.example.jerryyin.ideacamera.util.common.ImageUtils;
+import com.example.jerryyin.ideacamera.util.common.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +46,10 @@ public class AlbumActivity extends BaseActivity implements AdapterView.OnItemCli
     private Map<String, Album> albums;
     private List<String> paths = new ArrayList<String>();
     private int mCurPosition;
+    private String mCurTitle;
+
+    //查询数据库的参数
+    private CameraModelService mModelService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,17 +62,31 @@ public class AlbumActivity extends BaseActivity implements AdapterView.OnItemCli
     }
 
     private void initData() {
-        albums = ImageUtils.findGalleries(this, paths, 0);
-
         Intent intent = getIntent();
         mCurPosition = intent.getIntExtra("position", 0);
+        mCurTitle = intent.getStringExtra("title");
 
-        photos = albums.get(paths.get(mCurPosition)).getPhotos();
-        mTvModelName.setText(albums.get(paths.get(mCurPosition)).getTitle());
+        mModelService = new CameraModelService(this);
+        CameraModel model = mModelService.queryModelByName(mCurTitle);
+        if (model != null) {
+            //模版
+            List<String> imgUris = model.imgUris;
+            PhotoItem photoItem = null;
+            for (String uri : imgUris) {
+                photoItem = new PhotoItem(StringUtils.cutStringNull(uri));
+                photos.add(photoItem);
+            }
+        } else {
+            //系统
+            albums = ImageUtils.findGalleries(this, paths, 0);
+            photos = albums.get(paths.get(mCurPosition)).getPhotos();
+
+        }
     }
 
-
     private void setupViews() {
+//        mTvModelName.setText(albums.get(paths.get(mCurPosition)).getTitle());
+        mTvModelName.setText(mCurTitle);
         mGridViewAdapter = new GridViewAdapter(this, photos);
         mGridView.setAdapter(mGridViewAdapter);
         mGridView.setOnItemClickListener(this);
@@ -74,7 +95,6 @@ public class AlbumActivity extends BaseActivity implements AdapterView.OnItemCli
     //todo   打开照片－－－>>裁剪，美图等等...
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
 
 
     }

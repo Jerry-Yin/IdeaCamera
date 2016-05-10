@@ -167,11 +167,16 @@ public class ChooseActivity extends BaseActivity {
                 break;
 
             case R.id.btn_save:
-                savaModelToLocal(mCurModel);
+                boolean saved = savaModelToLocal(mCurModel);
                 Intent intent = new Intent(ChooseActivity.this, GalleryActivity.class);
-                intent.putExtra("model", mCurModel);
+                if (saved){
+                    intent.putExtra("model", mCurModel);
 //                intent.putExtra("imgUri", mCurBmpUri);
-                intent.setData(mCurBmpUri);
+                    intent.setData(mCurBmpUri);
+
+                }else {
+                    ToastUtil.showToast(this, "模版存储失败，照片将被保存到系统相册", Toast.LENGTH_SHORT);
+                }
                 startActivity(intent);
                 ChooseActivity.this.finish();
                 break;
@@ -182,20 +187,26 @@ public class ChooseActivity extends BaseActivity {
      * 存储model到本地数据库
      * @param modelName
      */
-    private void savaModelToLocal(String modelName) {
+    private boolean savaModelToLocal(String modelName) {
+        boolean isSaveFinished = false;
         if (mModelService != null){
             // TODO: 5/10/16 先判断是否已经有这个model，如果有，直接插入(更新)uri即可； 没有的话才创建一个新的model
             CameraModel model = mModelService.queryModelByName(modelName);
             if (model != null){
-                model.imgUris.add(mCurBmpUri.toString());
-                mModelService.updateModel(model);
+//                model.imgUris.add("file://"+mCurBmpUri.toString());
+                String[] values = mCurBmpUri.toString().split("\\://");
+                model.imgUris.add(values[1]);
+                isSaveFinished = mModelService.updateModel(model);
             }else {
                 List<String> imgUris = new ArrayList<>();
-                imgUris.add(mCurBmpUri.toString());
+//                imgUris.add("file://"+mCurBmpUri.toString());
+
+                imgUris.add(mCurBmpUri.toString().split("\\://")[1]);
                 CameraModel m = new CameraModel(modelName, imgUris);
-                mModelService.insertModel(m);
+                isSaveFinished = mModelService.insertModel(m);
             }
 
         }
+        return isSaveFinished;
     }
 }
