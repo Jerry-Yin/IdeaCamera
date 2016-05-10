@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -110,6 +112,7 @@ public class ChooseActivity extends BaseActivity {
                 // TODO: 4/22/16 有模版就选择或者添加； 没有就添加
 
                 View inflate = getLayoutInflater().inflate(R.layout.layout_add_model, null);
+                inflate.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
                 final EditText etModel = (EditText) inflate.findViewById(R.id.et_model);
                 final ListView listModel = (ListView) inflate.findViewById(R.id.list_model);
                 final AlertDialog dialog = new AlertDialog.Builder(this).
