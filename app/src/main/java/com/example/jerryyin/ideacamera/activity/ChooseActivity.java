@@ -8,21 +8,29 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jerryyin.ideacamera.R;
 import com.example.jerryyin.ideacamera.base.BaseActivity;
+import com.example.jerryyin.ideacamera.model.CameraModel;
+import com.example.jerryyin.ideacamera.util.CameraModelService;
 import com.example.jerryyin.ideacamera.util.common.ImageUtils;
 import com.example.jerryyin.ideacamera.util.common.ToastUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,11 +50,18 @@ public class ChooseActivity extends BaseActivity {
     @Bind(R.id.btn_save)
     Button mBtnSave;
 
+    private static final String TAG = "ChooseActivity";
+
     //当前图片
     private Bitmap mCurrentBitmap;
     private Uri mCurBmpUri; //当前照片的uri
     private String mCurModel;   //将要设定的模版
     private boolean isHaveModel = false;
+    private List<String> mModeNameList = new ArrayList<>(); //模版数据
+//    private String[] mModeList ; //模版数据
+
+    private CameraModelService mModelService;
+    private List<CameraModel> mAllModels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +80,26 @@ public class ChooseActivity extends BaseActivity {
             }
         });
 
+        initData();
+
+    }
+
+    private void initData() {
+        Log.d(TAG, "initData() started");
+        mModelService = new CameraModelService(this);
+        mAllModels = mModelService.queryAllModel(); //查询当前所有的model
+        if (mAllModels.size()>0){
+            isHaveModel = true;
+        }else {
+            isHaveModel = false;
+        }
+        Log.d(TAG, "所有模版长度 ＝ " + mAllModels.size());
+        for (CameraModel model: mAllModels){
+            mModeNameList.add(model.name);
+            Log.d(TAG, "添加的模版 ＝ " + mModeNameList);
+        }
+        Log.d(TAG, "当前所有模版长度 ＝ " + mModeNameList.size());
+
     }
 
 
@@ -77,31 +112,15 @@ public class ChooseActivity extends BaseActivity {
                 View inflate = getLayoutInflater().inflate(R.layout.layout_add_model, null);
                 final EditText etModel = (EditText) inflate.findViewById(R.id.et_model);
                 final ListView listModel = (ListView) inflate.findViewById(R.id.list_model);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                if (!TextUtils.isEmpty(mCurModel)){
-                    etModel.setText(mCurModel);
-                    etModel.setSelection(mCurModel.length());
-                }
-                if (isHaveModel){
-                    listModel.setVisibility(View.VISIBLE);
-                }else {
-                    listModel.setVisibility(View.GONE);
-                }
-                listModel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        listModel.getItemAtPosition(position);
-//                        mCurModel = ;
-                        ToastUtil.showToast(ChooseActivity.this, "当前模版：" + mCurModel, Toast.LENGTH_SHORT);
-                    }
-                });
-                builder.setTitle("添加模版")
+                final AlertDialog dialog = new AlertDialog.Builder(this).
+                        setTitle("添加模版")
                         .setView(inflate)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (!TextUtils.isEmpty(etModel.getText())) {
                                     mCurModel = etModel.getText().toString();
+//                                    savaModelToLocal(mCurModel);
                                     ToastUtil.showToast(ChooseActivity.this, "当前模版：" + mCurModel, Toast.LENGTH_SHORT);
                                 } else {
                                     return;
@@ -112,10 +131,34 @@ public class ChooseActivity extends BaseActivity {
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                builder.create().dismiss();
+                                dialog.dismiss();
                             }
                         })
-                        .create().show();
+                        .create();
+                dialog.show();
+                final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mModeNameList);
+
+
+                if (!TextUtils.isEmpty(mCurModel)){
+                    etModel.setText(mCurModel);
+                    etModel.setSelection(mCurModel.length());
+                }
+                if (isHaveModel){
+                    listModel.setVisibility(View.VISIBLE);
+                    listModel.setAdapter(adapter);
+                }else {
+                    listModel.setVisibility(View.GONE);
+
+                }
+
+                listModel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        mCurModel = mModeNameList.get(position);
+                        ToastUtil.showToast(ChooseActivity.this, "当前模版：" + mCurModel, Toast.LENGTH_SHORT);
+                        dialog.dismiss();
+                    }
+                });
 
                 break;
 
@@ -124,13 +167,35 @@ public class ChooseActivity extends BaseActivity {
                 break;
 
             case R.id.btn_save:
+                savaModelToLocal(mCurModel);
                 Intent intent = new Intent(ChooseActivity.this, GalleryActivity.class);
                 intent.putExtra("model", mCurModel);
 //                intent.putExtra("imgUri", mCurBmpUri);
                 intent.setData(mCurBmpUri);
                 startActivity(intent);
-//                ChooseActivity.this.finish();
+                ChooseActivity.this.finish();
                 break;
+        }
+    }
+
+    /**
+     * 存储model到本地数据库
+     * @param modelName
+     */
+    private void savaModelToLocal(String modelName) {
+        if (mModelService != null){
+            // TODO: 5/10/16 先判断是否已经有这个model，如果有，直接插入(更新)uri即可； 没有的话才创建一个新的model
+            CameraModel model = mModelService.queryModelByName(modelName);
+            if (model != null){
+                model.imgUris.add(mCurBmpUri.toString());
+                mModelService.updateModel(model);
+            }else {
+                List<String> imgUris = new ArrayList<>();
+                imgUris.add(mCurBmpUri.toString());
+                CameraModel m = new CameraModel(modelName, imgUris);
+                mModelService.insertModel(m);
+            }
+
         }
     }
 }

@@ -56,6 +56,8 @@ public class GalleryActivity extends BaseActivity implements AdapterView.OnItemC
     }
 
     private void initData() {
+
+
         mAlbumMaps = ImageUtils.findGalleries(this, mAlbumPaths, 0);
 
         if (mAlbumPaths.size() >= 0) {

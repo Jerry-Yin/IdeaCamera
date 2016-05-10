@@ -96,7 +96,7 @@ public class CameraActivity extends BaseActivity {
     @Bind(R.id.img_album)
     ImageView mBtnAlbum;
     @Bind(R.id.focus_index)
-    View mFocusIndex;
+    View mFocusIndex;   //聚焦框
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
