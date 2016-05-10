@@ -15,7 +15,7 @@
         android:id="@+id/focus_index"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/cam_focus"
+        android:background="@drawable/cam_focus_circle"
         android:visibility="invisible" />
 
     <RelativeLayout
