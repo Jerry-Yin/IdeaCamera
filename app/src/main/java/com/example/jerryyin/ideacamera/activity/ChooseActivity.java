@@ -88,13 +88,13 @@ public class ChooseActivity extends BaseActivity {
         Log.d(TAG, "initData() started");
         mModelService = new CameraModelService(this);
         mAllModels = mModelService.queryAllModel(); //查询当前所有的model
-        if (mAllModels.size()>0){
+        if (mAllModels.size() > 0) {
             isHaveModel = true;
-        }else {
+        } else {
             isHaveModel = false;
         }
         Log.d(TAG, "所有模版长度 ＝ " + mAllModels.size());
-        for (CameraModel model: mAllModels){
+        for (CameraModel model : mAllModels) {
             mModeNameList.add(model.name);
             Log.d(TAG, "添加的模版 ＝ " + mModeNameList);
         }
@@ -139,14 +139,14 @@ public class ChooseActivity extends BaseActivity {
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mModeNameList);
 
 
-                if (!TextUtils.isEmpty(mCurModel)){
+                if (!TextUtils.isEmpty(mCurModel)) {
                     etModel.setText(mCurModel);
                     etModel.setSelection(mCurModel.length());
                 }
-                if (isHaveModel){
+                if (isHaveModel) {
                     listModel.setVisibility(View.VISIBLE);
                     listModel.setAdapter(adapter);
-                }else {
+                } else {
                     listModel.setVisibility(View.GONE);
 
                 }
@@ -167,14 +167,17 @@ public class ChooseActivity extends BaseActivity {
                 break;
 
             case R.id.btn_save:
-                boolean saved = savaModelToLocal(mCurModel);
                 Intent intent = new Intent(ChooseActivity.this, GalleryActivity.class);
-                if (saved){
-                    intent.putExtra("model", mCurModel);
+                if (!TextUtils.isEmpty(mCurModel)) {
+                    boolean saved = savaModelToLocal(mCurModel);
+                    if (saved) {
+                        intent.putExtra("model", mCurModel);
 //                intent.putExtra("imgUri", mCurBmpUri);
-                    intent.setData(mCurBmpUri);
-
-                }else {
+                        intent.setData(mCurBmpUri);
+                    } else {
+                        ToastUtil.showToast(this, "模版存储失败，照片将被保存到系统相册", Toast.LENGTH_SHORT);
+                    }
+                } else {
                     ToastUtil.showToast(this, "模版存储失败，照片将被保存到系统相册", Toast.LENGTH_SHORT);
                 }
                 startActivity(intent);
@@ -185,19 +188,20 @@ public class ChooseActivity extends BaseActivity {
 
     /**
      * 存储model到本地数据库
+     *
      * @param modelName
      */
     private boolean savaModelToLocal(String modelName) {
         boolean isSaveFinished = false;
-        if (mModelService != null){
+        if (mModelService != null) {
             // TODO: 5/10/16 先判断是否已经有这个model，如果有，直接插入(更新)uri即可； 没有的话才创建一个新的model
             CameraModel model = mModelService.queryModelByName(modelName);
-            if (model != null){
+            if (model != null) {
 //                model.imgUris.add("file://"+mCurBmpUri.toString());
                 String[] values = mCurBmpUri.toString().split("\\://");
                 model.imgUris.add(values[1]);
                 isSaveFinished = mModelService.updateModel(model);
-            }else {
+            } else {
                 List<String> imgUris = new ArrayList<>();
 //                imgUris.add("file://"+mCurBmpUri.toString());
 
