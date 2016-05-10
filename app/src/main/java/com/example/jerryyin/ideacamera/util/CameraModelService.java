@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.jerryyin.ideacamera.model.CameraModel;
+import com.example.jerryyin.ideacamera.util.common.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class CameraModelService {
     public boolean insertModel(CameraModel model) {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         String sql = "insert into CameraModel (name, imgUris) values(?,?)";
-        Object obj[] = {model.name, jointString(model.imgUris)};
+        Object obj[] = {model.name, StringUtils.jointString(model.imgUris)};
         database.execSQL(sql, obj);
         return true;
     }
@@ -63,7 +64,7 @@ public class CameraModelService {
             do {
                 String name = cursor.getString(cursor.getColumnIndex("name"));
                 String Uris = cursor.getString(cursor.getColumnIndex("imgUris"));
-                modelList.add(new CameraModel(name, splitUris(Uris)));
+                modelList.add(new CameraModel(name, StringUtils.splitUris(Uris)));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -83,7 +84,7 @@ public class CameraModelService {
         Cursor cursor = database.rawQuery(sql, new String[]{name + ""});
         if (cursor != null && cursor.moveToFirst()) {
             String Uris = cursor.getString(cursor.getColumnIndex("imgUris"));
-            return new CameraModel(name, splitUris(Uris));
+            return new CameraModel(name, StringUtils.splitUris(Uris));
         }
         cursor.close();
         return null;
@@ -94,40 +95,10 @@ public class CameraModelService {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         String sql = "update CameraModel set imgUris=? where name=?;";
         Object obj[] = {
-                jointString(model.imgUris),
+                StringUtils.jointString(model.imgUris),
                 model.name};
         database.execSQL(sql, obj);
         return true;
     }
 
-
-    /**
-     * 拼接字符串 "|"
-     * @param stringList
-     * @return
-     */
-    public String jointString(List<String> stringList){
-        String Uris = null;
-        //拼接字符串
-        for (String uri : stringList) {
-            Uris += uri + "|";
-        }
-        return Uris;
-    }
-
-    /**
-     * 工具方法
-     * 分隔字符串 "|"
-     *
-     * @param Uris
-     * @return
-     */
-    public List<String> splitUris(String Uris) {
-        List<String> imgUris = new ArrayList<>();
-        String[] arrayUri = Uris.split("\\|");  //分隔字符串
-        for (int i = 0; i < arrayUri.length; i++) {
-            imgUris.add(arrayUri[i]);
-        }
-        return imgUris;
-    }
 }
