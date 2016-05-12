@@ -19,6 +19,7 @@ import com.example.jerryyin.ideacamera.util.common.ImageLoaderUtils;
 import com.example.jerryyin.ideacamera.util.common.ImageUtils;
 import com.example.jerryyin.ideacamera.util.common.StringUtils;
 import com.example.jerryyin.ideacamera.view.CustomGallery;
+import com.example.jerryyin.ideacamera.view.GalleryFlow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class GalleryActivity extends BaseActivity implements AdapterView.OnItemC
 
     @Bind(R.id.gallery)
     CustomGallery mGallery;
+//    private GalleryFlow mGallery;
 
     private CusGalleryAdapter mGalleryAdapter;
     private List<String> mListModelNames = new ArrayList<>();
@@ -106,6 +108,7 @@ public class GalleryActivity extends BaseActivity implements AdapterView.OnItemC
     }
 
     private void setupView() {
+        mGallery = (CustomGallery) findViewById(R.id.gallery);
         mGalleryAdapter = new CusGalleryAdapter(this, mPhotoItems, mListModelNames);
         mGallery.setAdapter(mGalleryAdapter);
         mGallery.setOnItemClickListener(this);

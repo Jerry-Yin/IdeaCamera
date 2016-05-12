@@ -11,5 +11,9 @@
     <color name="background_main">#f9e8ce</color>
     <color name="background_main_title">#31353e</color>
 
+    <color name="text_color1">#FF6F00</color>
+    <color name="white">#ffffff</color>
+    <color name="item_selected">#FFCC80</color>
+
 
 </resources>

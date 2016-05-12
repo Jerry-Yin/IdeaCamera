@@ -18,8 +18,6 @@ import com.example.jerryyin.ideacamera.model.PhotoItem;
 import com.example.jerryyin.ideacamera.util.common.ImageLoaderUtils;
 import com.example.jerryyin.ideacamera.util.common.ImageUtils;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 
@@ -64,7 +62,7 @@ public class CusGalleryAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         GalleryHolder holder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_gallery_item, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_item_gallery, null);
             holder = new GalleryHolder();
             holder.img = (ImageView) convertView.findViewById(R.id.image_item);
             holder.txt = (TextView) convertView.findViewById(R.id.tv_model_name);
@@ -79,13 +77,13 @@ public class CusGalleryAdapter extends BaseAdapter {
         }
 
         //设置gallery图标
-        if (mPhotoItems.size()<position+1){
+        if (mPhotoItems.size() < position + 1) {
             Bitmap bitmap = ImageUtils.getImageBitmap(mContext.getResources(),
                     mDefaultIconID);
             BitmapDrawable drawable = new BitmapDrawable(bitmap);
             drawable.setAntiAlias(true); // 消除锯齿
             holder.img.setImageDrawable(drawable);
-        }else if (mPhotoItems.get(position) == null || mPhotoItems.get(position).get(0)==null) {
+        } else if (mPhotoItems.get(position) == null || mPhotoItems.get(position).get(0) == null) {
             //默认图标
             Bitmap bitmap = ImageUtils.getImageBitmap(mContext.getResources(),
                     mDefaultIconID);
@@ -95,16 +93,32 @@ public class CusGalleryAdapter extends BaseAdapter {
         } else {
             //第一张图片
             //第三方图片加载工具 ,知恩感通过地址加载，就没有3D效果
-            ImageLoaderUtils.displayLocalImage(mPhotoItems.get(position).get(0).getImageUri(), holder.img, null);
+//            ImageLoaderUtils.displayLocalImage(mPhotoItems.get(position).get(0).getImageUri(), holder.img, null);
 
 
-            //自己根据地址加载
+            //自己根据地址加载(gallery1)
+            final String imgUri = mPhotoItems.get(position).get(0).getImageUri();
+//            final Bitmap[] bitmap = {null};
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    bitmap[0] = ImageUtils.decodeBitmapFromPath(imgUri);
+//                }
+//            }).start();
+            Bitmap bitmap = ImageUtils.decodeBitmapFromPath(imgUri);
+            Log.d(TAG, "imgUri = "+imgUri);
+            Log.d(TAG, "bitmap = "+ bitmap);     //null
+            Bitmap okBitmap = ImageUtils.getImageBitmap(bitmap, position);
+//            ImageLoaderUtils.displayLocalImage(okBitmap.get,);
+            holder.img.setImageBitmap(okBitmap);
+
+            //自己根据地址加载（gallery2）
 //            String imgUri = mPhotoItems.get(position).get(0).getImageUri();
-//            Bitmap bitmap = ImageUtils.decodeBitmapFromPath(imgUri);
-//            Log.d(TAG, "imgUri = "+imgUri);
-//            Log.d(TAG, "bitmap = "+bitmap);
-//            Bitmap okBitmap = ImageUtils.getImageBitmap(bitmap, position);
-//            holder.img.setImageBitmap(okBitmap);
+//            Log.d(TAG, "imgUri = " + imgUri);
+//            Bitmap b = ImageUtils.decodeBitmapFromPath(imgUri);
+//            Bitmap bitmap = BitmapUtil.createReflectedBitmap(b);
+////            Bitmap okBitmap = ImageUtils.getImageBitmap(bitmap, position);
+//            holder.img.setImageBitmap(bitmap);
         }
 
 //        Bitmap bitmap = Bi
@@ -113,11 +127,12 @@ public class CusGalleryAdapter extends BaseAdapter {
         WindowManager windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         int width = windowManager.getDefaultDisplay().getWidth();
         int height = windowManager.getDefaultDisplay().getHeight();
-        Log.d(TAG, "屏幕尺寸：width = "+width+" height = "+height);
+        Log.d(TAG, "屏幕尺寸：width = " + width + " height = " + height);
         Gallery.LayoutParams params = null;
-        if (width > 500){
+        if (width > 500) {
             params = new Gallery.LayoutParams(480, 640);   //画廊效果的单个ITEM大小
-        }else {
+//            params = new Gallery.LayoutParams(520, 1092);   //画廊效果的单个ITEM大小
+        } else {
             params = new Gallery.LayoutParams(240, 320);   //画廊效果的单个ITEM大小
         }
         convertView.setLayoutParams(params);
