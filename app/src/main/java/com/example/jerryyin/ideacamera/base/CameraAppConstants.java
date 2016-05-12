@@ -7,6 +7,7 @@ import android.os.Environment;
  */
 public class CameraAppConstants {
 
+
     public static final String APP_DIR                    = Environment.getExternalStorageDirectory() + "/IdeaCamera";
     public static final String APP_TEMP                   = APP_DIR + "/temp";
     public static final String APP_IMAGE                  = APP_DIR + "/image";
@@ -28,5 +29,12 @@ public class CameraAppConstants {
     public static final int REQUEST_CROP = 6709;
     public static final int REQUEST_PICK = 9162;
     public static final int RESULT_ERROR = 404;
+
+    //用户选择的画廊动画效果(默认第1种)
+    public static final String KEY_REFLECT = "reflect_gallery";
+    public static final String KEY_REFLECT_CUR = "reflect_gallery_cur";
+    public static final String[] ITEM_REFLECTS = new String[]{"普通3D", "炫酷3D"};
+    public final static String PREFERENCE_NAME = "ideaCamera_Pref";  //pref 表名称
+
 
 }

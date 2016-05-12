@@ -3,6 +3,8 @@ package com.example.jerryyin.ideacamera.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jerryyin.ideacamera.R;
+import com.example.jerryyin.ideacamera.base.CameraAppConstants;
 import com.example.jerryyin.ideacamera.model.PhotoItem;
 import com.example.jerryyin.ideacamera.util.common.ImageLoaderUtils;
 import com.example.jerryyin.ideacamera.util.common.ImageUtils;
@@ -31,11 +34,14 @@ public class CusGalleryAdapter extends BaseAdapter {
     private Context mContext;
     private List<String> mListModelName;
     private List<List<PhotoItem>> mPhotoItems;
+    private String mCurReflect;     //效果
 
     public CusGalleryAdapter(Context context, List<List<PhotoItem>> photoItems, List<String> stringList) {
         this.mContext = context;
         this.mListModelName = stringList;
         this.mPhotoItems = photoItems;
+        this.mCurReflect = mContext.getSharedPreferences(CameraAppConstants.PREFERENCE_NAME, Context.MODE_PRIVATE)
+                .getString(CameraAppConstants.KEY_REFLECT, CameraAppConstants.ITEM_REFLECTS[0]);
     }
 
     class GalleryHolder {
@@ -78,26 +84,34 @@ public class CusGalleryAdapter extends BaseAdapter {
 
         //设置gallery图标
         if (mPhotoItems.size() < position + 1) {
-            Bitmap bitmap = ImageUtils.getImageBitmap(mContext.getResources(),
-                    mDefaultIconID);
-            BitmapDrawable drawable = new BitmapDrawable(bitmap);
-            drawable.setAntiAlias(true); // 消除锯齿
-            holder.img.setImageDrawable(drawable);
+            holder.img.setImageDrawable(setNormalIcon());
         } else if (mPhotoItems.get(position) == null || mPhotoItems.get(position).get(0) == null) {
-            //默认图标
-            Bitmap bitmap = ImageUtils.getImageBitmap(mContext.getResources(),
-                    mDefaultIconID);
-            BitmapDrawable drawable = new BitmapDrawable(bitmap);
-            drawable.setAntiAlias(true); // 消除锯齿
-            holder.img.setImageDrawable(drawable);
+            holder.img.setImageDrawable(setNormalIcon());
         } else {
-            //第一张图片
-            //第三方图片加载工具 ,知恩感通过地址加载，就没有3D效果
-//            ImageLoaderUtils.displayLocalImage(mPhotoItems.get(position).get(0).getImageUri(), holder.img, null);
+            final String imgUri = mPhotoItems.get(position).get(0).getImageUri();
 
+            if (!TextUtils.isEmpty(mCurReflect)) {
+                if (mCurReflect.equals(CameraAppConstants.ITEM_REFLECTS[0])) {
+                    //第三方图片加载工具 ,知恩感通过地址加载，就没有3D效果
+                    ImageLoaderUtils.displayLocalImage(mPhotoItems.get(position).get(0).getImageUri(), holder.img, null);
+
+                } else if (mCurReflect.equals(CameraAppConstants.ITEM_REFLECTS[1])) {
+                    Bitmap bitmap = ImageUtils.decodeBitmapFromPath(imgUri);
+                    Log.d(TAG, "imgUri = " + imgUri);
+                    Log.d(TAG, "bitmap = " + bitmap);     //null
+                    Bitmap okBitmap = ImageUtils.getImageBitmap(bitmap, position);
+//            ImageLoaderUtils.displayLocalImage(okBitmap.get,);
+                    holder.img.setImageBitmap(okBitmap);
+                }
+            } else {
+                holder.img.setImageDrawable(setNormalIcon());
+            }
+
+
+            //第一张图片
 
             //自己根据地址加载(gallery1)
-            final String imgUri = mPhotoItems.get(position).get(0).getImageUri();
+//            final String imgUri = mPhotoItems.get(position).get(0).getImageUri();
 //            final Bitmap[] bitmap = {null};
 //            new Thread(new Runnable() {
 //                @Override
@@ -105,12 +119,12 @@ public class CusGalleryAdapter extends BaseAdapter {
 //                    bitmap[0] = ImageUtils.decodeBitmapFromPath(imgUri);
 //                }
 //            }).start();
-            Bitmap bitmap = ImageUtils.decodeBitmapFromPath(imgUri);
-            Log.d(TAG, "imgUri = "+imgUri);
-            Log.d(TAG, "bitmap = "+ bitmap);     //null
-            Bitmap okBitmap = ImageUtils.getImageBitmap(bitmap, position);
-//            ImageLoaderUtils.displayLocalImage(okBitmap.get,);
-            holder.img.setImageBitmap(okBitmap);
+//            Bitmap bitmap = ImageUtils.decodeBitmapFromPath(imgUri);
+//            Log.d(TAG, "imgUri = " + imgUri);
+//            Log.d(TAG, "bitmap = " + bitmap);     //null
+//            Bitmap okBitmap = ImageUtils.getImageBitmap(bitmap, position);
+////            ImageLoaderUtils.displayLocalImage(okBitmap.get,);
+//            holder.img.setImageBitmap(okBitmap);
 
             //自己根据地址加载（gallery2）
 //            String imgUri = mPhotoItems.get(position).get(0).getImageUri();
@@ -138,5 +152,15 @@ public class CusGalleryAdapter extends BaseAdapter {
         convertView.setLayoutParams(params);
         return convertView;
 
+    }
+
+
+    //设置默认图标
+    public Drawable setNormalIcon() {
+        Bitmap bitmap = ImageUtils.getImageBitmap(mContext.getResources(),
+                mDefaultIconID);
+        BitmapDrawable drawable = new BitmapDrawable(bitmap);
+        drawable.setAntiAlias(true); // 消除锯齿
+        return drawable;
     }
 }

@@ -45,7 +45,7 @@ public class MainActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.btn_go_pic:
                 startActivity(new Intent(MainActivity.this, CameraActivity.class));
-                this.finish();
+//                this.finish();
                 break;
 
             case R.id.main_part1_module_manage:
