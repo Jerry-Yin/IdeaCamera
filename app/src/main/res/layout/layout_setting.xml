@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_main"
+    android:background="@color/background_setting"
     android:orientation="vertical">
 
 
@@ -71,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="画廊效果切换"
-                    android:textColor="@color/text_color1"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     android:gravity="center_vertical"/>
 
@@ -97,15 +97,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="0.8dp"
-                android:background="#ffffff"
+                android:background="@drawable/btn_item_click"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="画廊效果切换"
-                    android:textColor="@color/text_color1"
+                    android:text="part2"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     android:gravity="center_vertical"/>
 
@@ -113,7 +113,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_toLeftOf="@+id/img2"
-                    android:text="3D效果"
+                    android:text="part2"
                     android:textSize="15sp"
                     android:layout_marginRight="10dp"
                     android:gravity="center_vertical"/>
@@ -129,23 +129,23 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="#ffffff"
+                android:background="@drawable/btn_item_click"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="画廊效果切换"
+                    android:text="part3"
                     android:gravity="center_vertical"
-                    android:textColor="@color/text_color1"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_toLeftOf="@+id/img3"
-                    android:text="3D效果"
+                    android:text="part3"
                     android:textSize="15sp"
                     android:layout_marginRight="10dp"
                     android:gravity="center_vertical"/>
@@ -163,7 +163,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="100dp"
-                android:background="#ffffff"
+                android:background="@drawable/btn_item_click"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
 
@@ -171,7 +171,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="关于IdeaCamera"
-                    android:textColor="@color/text_color1"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     android:gravity="center_vertical"/>
 
