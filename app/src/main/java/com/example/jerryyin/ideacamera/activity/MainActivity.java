@@ -49,7 +49,7 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case R.id.main_part1_module_manage:
-
+                startActivity(new Intent());
                 break;
 
             case R.id.main_part2_beauty:
