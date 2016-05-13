@@ -2,30 +2,29 @@
 <com.example.jerryyin.ideacamera.view.CusDeleteItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:gravity="center_vertical"
     android:orientation="horizontal">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add"
-            android:layout_gravity="center_vertical"/>
+            android:layout_centerVertical="true"/>
 
         <TextView
             android:id="@+id/tv_name_module"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="模版名称"
-            android:textSize="18sp" />
-    </LinearLayout>
+            android:textSize="18sp"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
 
 
     <LinearLayout
+        android:id="@+id/extra_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"

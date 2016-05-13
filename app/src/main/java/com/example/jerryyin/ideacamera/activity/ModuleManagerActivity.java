@@ -61,9 +61,16 @@ public class ModuleManagerActivity extends BaseActivity {
         mModelService = new CameraModelService(this);
         mModelLists = mModelService.queryAllModel();
         addDataToList();
+        addTestData();
         mArrayAdapter = new ModuleListAdapter(this, mModuleNameList);
         mLvModule.setAdapter(mArrayAdapter);
 
+    }
+
+    private void addTestData() {
+        for (int i=0; i<20; i++){
+            mModuleNameList.add("测试数据 "+i);
+        }
     }
 
     private void addDataToList() {

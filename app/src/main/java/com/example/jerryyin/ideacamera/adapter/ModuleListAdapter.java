@@ -8,19 +8,23 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jerryyin.ideacamera.R;
+import com.example.jerryyin.ideacamera.util.common.ToastUtil;
+import com.example.jerryyin.ideacamera.view.CusDeleteItemLayout;
 
 import java.util.List;
 
 /**
  * Created by JerryYin on 5/13/16.
  */
-public class ModuleListAdapter extends BaseAdapter {
+public class ModuleListAdapter extends BaseAdapter  {
 
     private Context mContext;
     private List<String> mDataList;
     private LayoutInflater mInflater;
+    public static CusDeleteItemLayout itemDelete = null;
 
 
     public ModuleListAdapter(Context mContext, List<String> mDataList) {
@@ -51,7 +55,7 @@ public class ModuleListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
         if (convertView == null) {
             holder = new ViewHolder();
@@ -64,8 +68,45 @@ public class ModuleListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.txt_name.setText(mDataList.get(position));
+
+        holder.btn_to_top.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast(mContext, "置顶", Toast.LENGTH_SHORT);
+            }
+        });
+        final View finalConvertView = convertView;
+        holder.btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast(mContext, "删除", Toast.LENGTH_SHORT);
+                mDataList.remove(position);
+                notifyDataSetChanged();
+//                finalConvertView.findViewById(R.id.extra_item).setVisibility(View.GONE);
+            }
+        });
+
         return convertView;
     }
 
+    public static void ItemDeleteReset() {
+        if (itemDelete != null) {
+            itemDelete.reSet();
+        }
+    }
+
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()){
+//            case R.id.btn_to_top:
+//                ToastUtil.showToast(mContext, "置顶", Toast.LENGTH_SHORT);
+//                break;
+//
+//            case R.id.btn_delete:
+//                ToastUtil.showToast(mContext, "删除", Toast.LENGTH_SHORT);
+//                mDataList.remove()
+//                break;
+//        }
+//    }
 
 }

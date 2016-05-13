@@ -6,23 +6,38 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ListView;
+
+import com.example.jerryyin.ideacamera.adapter.ModuleListAdapter;
 
 /**
  * Created by JerryYin on 5/13/16.
  * 自定义滑动删除的ListView
  */
 
-public class CustomListView extends ListView {
+public class CustomListView extends ListView implements AbsListView.OnScrollListener{
 
     private float minDis = 10;
     private float mLastMotionX;// 记住上次X触摸屏的位置
     private float mLastMotionY;// 记住上次Y触摸屏的位置
     private boolean isLock = false;
 
+    public interface ItemClickListener{
+        void onItemClick(int position);
+    }
+
+    private ItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(ItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
+    }
+
     public CustomListView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setOnScrollListener(this);
     }
+
 
     /**
      * 如果一个ViewGroup的onInterceptTouchEvent()方法返回true，说明Touch事件被截获，
@@ -34,6 +49,7 @@ public class CustomListView extends ListView {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (!isIntercept(ev)) {
+            ModuleListAdapter.ItemDeleteReset();
             return false;
         }
         return super.onInterceptTouchEvent(ev);
@@ -43,23 +59,12 @@ public class CustomListView extends ListView {
     public boolean dispatchTouchEvent(MotionEvent event) {
         boolean dte = super.dispatchTouchEvent(event);
         if (MotionEvent.ACTION_UP == event.getAction() && !dte) {//onItemClick
-            int position = pointToPosition((int) event.getX(), (int) event.getY());
-            View view = getChildAt(position);
-            super.performItemClick(view, position, view.getId());
+            int position = pointToPosition((int)event.getX(), (int)event.getY());
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(position);
+            }
         }
         return dte;
-    }
-
-    @Override
-    // 处理点击事件，如果是手势的事件则不作点击事件 普通View
-    public boolean performClick() {
-        return super.performClick();
-    }
-
-    @Override
-    // 处理点击事件，如果是手势的事件则不作点击事件 ListView
-    public boolean performItemClick(View view, int position, long id) {
-        return super.performItemClick(view, position, id);
     }
 
     /**
@@ -71,12 +76,12 @@ public class CustomListView extends ListView {
         int action = ev.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                Log.e("test", "isIntercept  ACTION_DOWN  " + isLock);
+                Log.e("test", "isIntercept  ACTION_DOWN  "+isLock);
                 mLastMotionX = x;
                 mLastMotionY = y;
                 break;
             case MotionEvent.ACTION_MOVE:
-                Log.e("test", "isIntercept  ACTION_MOVE  " + isLock);
+                Log.e("test", "isIntercept  ACTION_MOVE  "+isLock);
                 if (!isLock) {
                     float deltaX = Math.abs(mLastMotionX - x);
                     float deltay = Math.abs(mLastMotionY - y);
@@ -91,15 +96,28 @@ public class CustomListView extends ListView {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                Log.e("test", "isIntercept  ACTION_UP  " + isLock);
+                Log.e("test", "isIntercept  ACTION_UP  "+isLock);
                 isLock = false;
                 break;
             case MotionEvent.ACTION_CANCEL:
-                Log.e("test", "isIntercept  ACTION_CANCEL  " + isLock);
+                Log.e("test", "isIntercept  ACTION_CANCEL  "+isLock);
                 isLock = false;
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        if (scrollState != OnScrollListener.SCROLL_STATE_IDLE) {//认为是滚动，重置
+            ModuleListAdapter.ItemDeleteReset();
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem,
+                         int visibleItemCount, int totalItemCount) {
+
     }
 
 }
