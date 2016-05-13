@@ -2,6 +2,7 @@ package com.example.jerryyin.ideacamera.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -11,8 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.jerryyin.ideacamera.R;
-import com.example.jerryyin.ideacamera.base.BaseActivity;
-import com.example.jerryyin.ideacamera.base.CameraAppConstants;
+import com.example.jerryyin.ideacamera.base.ICBaseActivity;
+import com.example.jerryyin.ideacamera.base.ICConstants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,7 +22,7 @@ import butterknife.OnClick;
 /**
  * Created by JerryYin on 5/12/16.
  */
-public class SettingActivity extends BaseActivity {
+public class ICSettingActivity extends ICBaseActivity {
 
     @Bind(R.id.btn_back)
     LinearLayout mBtnBack;
@@ -62,12 +63,12 @@ public class SettingActivity extends BaseActivity {
 
     private void initViews() {
         mTxtReflect.setText(
-                getSharedPreferences(CameraAppConstants.PREFERENCE_NAME, MODE_PRIVATE)
-                        .getString(CameraAppConstants.KEY_REFLECT, CameraAppConstants.ITEM_REFLECTS[0]));
+                getSharedPreferences(ICConstants.PREFERENCE_NAME, MODE_PRIVATE)
+                        .getString(ICConstants.KEY_REFLECT, ICConstants.ITEM_REFLECTS[0]));
     }
 
     private void initDatas() {
-        mEditor = getSharedPreferences(CameraAppConstants.PREFERENCE_NAME, MODE_PRIVATE).edit();
+        mEditor = getSharedPreferences(ICConstants.PREFERENCE_NAME, MODE_PRIVATE).edit();
 
     }
 
@@ -75,24 +76,24 @@ public class SettingActivity extends BaseActivity {
     public void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("画廊动画效果")
-                .setItems(CameraAppConstants.ITEM_REFLECTS, new DialogInterface.OnClickListener() {
+                .setItems(ICConstants.ITEM_REFLECTS, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                mEditor.putString(CameraAppConstants.KEY_REFLECT, CameraAppConstants.ITEM_REFLECTS[0]);
-                                mEditor.putString(CameraAppConstants.KEY_REFLECT_CUR, CameraAppConstants.ITEM_REFLECTS[0]);
+                                mEditor.putString(ICConstants.KEY_REFLECT, ICConstants.ITEM_REFLECTS[0]);
+                                mEditor.putString(ICConstants.KEY_REFLECT_CUR, ICConstants.ITEM_REFLECTS[0]);
                                 mEditor.commit();
-                                mCurReflect = CameraAppConstants.ITEM_REFLECTS[0];
+                                mCurReflect = ICConstants.ITEM_REFLECTS[0];
                                 mTxtReflect.setText(mCurReflect);
 
                                 break;
 
                             case 1:
-                                mEditor.putString(CameraAppConstants.KEY_REFLECT, CameraAppConstants.ITEM_REFLECTS[1]);
-                                mEditor.putString(CameraAppConstants.KEY_REFLECT_CUR, CameraAppConstants.ITEM_REFLECTS[0]);
+                                mEditor.putString(ICConstants.KEY_REFLECT, ICConstants.ITEM_REFLECTS[1]);
+                                mEditor.putString(ICConstants.KEY_REFLECT_CUR, ICConstants.ITEM_REFLECTS[0]);
                                 mEditor.commit();
-                                mCurReflect = CameraAppConstants.ITEM_REFLECTS[1];
+                                mCurReflect = ICConstants.ITEM_REFLECTS[1];
                                 mTxtReflect.setText(mCurReflect);
 
                                 break;
@@ -117,7 +118,7 @@ public class SettingActivity extends BaseActivity {
                 break;
 
             case R.id.btn_about:
-
+                startActivity(new Intent(this, ICAboutActivity.class));
                 break;
 
             case R.id.btn_file_dir:

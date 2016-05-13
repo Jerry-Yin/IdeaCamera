@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.example.jerryyin.ideacamera.activity.CameraActivity;
-import com.example.jerryyin.ideacamera.activity.ChooseActivity;
+import com.example.jerryyin.ideacamera.activity.ICCameraActivity;
+import com.example.jerryyin.ideacamera.activity.ICChooseActivity;
 import com.example.jerryyin.ideacamera.model.PhotoItem;
 
 import java.util.Stack;
@@ -34,7 +34,7 @@ public class IdeaCameraManager {
 
     //打开照相界面
     public void openCamera(Context context) {
-        Intent intent = new Intent(context, CameraActivity.class);
+        Intent intent = new Intent(context, ICCameraActivity.class);
         context.startActivity(intent);
     }
 
@@ -50,10 +50,10 @@ public class IdeaCameraManager {
 //            Intent i = new Intent(activity, CropPhotoActivity.class);
 //            i.setData(uri);
 //            //TODO稍后添加
-//            activity.startActivityForResult(i, CameraAppConstants.REQUEST_CROP);
+//            activity.startActivityForResult(i, ICConstants.REQUEST_CROP);
 //        }
 
-        Intent newIntent = new Intent(activity, ChooseActivity.class);
+        Intent newIntent = new Intent(activity, ICChooseActivity.class);
         newIntent.setData(uri);
         activity.startActivity(newIntent);
     }

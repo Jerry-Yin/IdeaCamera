@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jerryyin.ideacamera.R;
-import com.example.jerryyin.ideacamera.base.CameraAppConstants;
+import com.example.jerryyin.ideacamera.base.ICConstants;
 import com.example.jerryyin.ideacamera.model.PhotoItem;
 import com.example.jerryyin.ideacamera.util.common.ImageLoaderUtils;
 import com.example.jerryyin.ideacamera.util.common.ImageUtils;
@@ -40,8 +40,8 @@ public class CusGalleryAdapter extends BaseAdapter {
         this.mContext = context;
         this.mListModelName = stringList;
         this.mPhotoItems = photoItems;
-        this.mCurReflect = mContext.getSharedPreferences(CameraAppConstants.PREFERENCE_NAME, Context.MODE_PRIVATE)
-                .getString(CameraAppConstants.KEY_REFLECT, CameraAppConstants.ITEM_REFLECTS[0]);
+        this.mCurReflect = mContext.getSharedPreferences(ICConstants.PREFERENCE_NAME, Context.MODE_PRIVATE)
+                .getString(ICConstants.KEY_REFLECT, ICConstants.ITEM_REFLECTS[0]);
     }
 
     class GalleryHolder {
@@ -91,11 +91,11 @@ public class CusGalleryAdapter extends BaseAdapter {
             final String imgUri = mPhotoItems.get(position).get(0).getImageUri();
 
             if (!TextUtils.isEmpty(mCurReflect)) {
-                if (mCurReflect.equals(CameraAppConstants.ITEM_REFLECTS[0])) {
+                if (mCurReflect.equals(ICConstants.ITEM_REFLECTS[0])) {
                     //第三方图片加载工具 ,知恩感通过地址加载，就没有3D效果
                     ImageLoaderUtils.displayLocalImage(mPhotoItems.get(position).get(0).getImageUri(), holder.img, null);
 
-                } else if (mCurReflect.equals(CameraAppConstants.ITEM_REFLECTS[1])) {
+                } else if (mCurReflect.equals(ICConstants.ITEM_REFLECTS[1])) {
                     Bitmap bitmap = ImageUtils.decodeBitmapFromPath(imgUri);
                     Log.d(TAG, "imgUri = " + imgUri);
                     Log.d(TAG, "bitmap = " + bitmap);     //null

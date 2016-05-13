@@ -19,7 +19,7 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.example.jerryyin.ideacamera.base.CameraApplication;
+import com.example.jerryyin.ideacamera.base.ICApplication;
 import com.example.jerryyin.ideacamera.model.Album;
 import com.example.jerryyin.ideacamera.model.PhotoItem;
 
@@ -68,7 +68,7 @@ public class ImageUtils {
 
     //图片是不是正方形
     public static boolean isSquare(Uri imageUri) {
-        ContentResolver resolver = CameraApplication.getApp().getContentResolver();
+        ContentResolver resolver = ICApplication.getApp().getContentResolver();
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;

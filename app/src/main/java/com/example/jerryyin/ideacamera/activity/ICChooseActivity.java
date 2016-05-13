@@ -10,7 +10,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -20,12 +19,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jerryyin.ideacamera.R;
-import com.example.jerryyin.ideacamera.base.BaseActivity;
+import com.example.jerryyin.ideacamera.base.ICBaseActivity;
 import com.example.jerryyin.ideacamera.model.CameraModel;
 import com.example.jerryyin.ideacamera.util.CameraModelService;
 import com.example.jerryyin.ideacamera.util.common.ImageUtils;
@@ -41,7 +38,7 @@ import butterknife.OnClick;
 /**
  * Created by JerryYin on 4/21/16.
  */
-public class ChooseActivity extends BaseActivity {
+public class ICChooseActivity extends ICBaseActivity {
 
     @Bind(R.id.img_photo)
     ImageView mImgPhoto;
@@ -52,7 +49,7 @@ public class ChooseActivity extends BaseActivity {
     @Bind(R.id.btn_save)
     Button mBtnSave;
 
-    private static final String TAG = "ChooseActivity";
+    private static final String TAG = "ICChooseActivity";
 
     //当前图片
     private Bitmap mCurrentBitmap;
@@ -124,11 +121,11 @@ public class ChooseActivity extends BaseActivity {
                                 if (!TextUtils.isEmpty(etModel.getText())) {
                                     mCurModel = etModel.getText().toString();
 //                                    savaModelToLocal(mCurModel);
-                                    ToastUtil.showToast(ChooseActivity.this, "当前模版：" + mCurModel, Toast.LENGTH_SHORT);
+                                    ToastUtil.showToast(ICChooseActivity.this, "当前模版：" + mCurModel, Toast.LENGTH_SHORT);
                                 } else {
                                     return;
                                 }
-//                                ToastUtil.showToast(ChooseActivity.this, "当前模版：" + mCurModel, Toast.LENGTH_SHORT);
+//                                ToastUtil.showToast(ICChooseActivity.this, "当前模版：" + mCurModel, Toast.LENGTH_SHORT);
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -158,7 +155,7 @@ public class ChooseActivity extends BaseActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         mCurModel = mModeNameList.get(position);
-                        ToastUtil.showToast(ChooseActivity.this, "当前模版：" + mCurModel, Toast.LENGTH_SHORT);
+                        ToastUtil.showToast(ICChooseActivity.this, "当前模版：" + mCurModel, Toast.LENGTH_SHORT);
                         dialog.dismiss();
                     }
                 });
@@ -170,7 +167,7 @@ public class ChooseActivity extends BaseActivity {
                 break;
 
             case R.id.btn_save:
-                Intent intent = new Intent(ChooseActivity.this, GalleryActivity.class);
+                Intent intent = new Intent(ICChooseActivity.this, ICGalleryActivity.class);
                 if (!TextUtils.isEmpty(mCurModel)) {
                     boolean saved = savaModelToLocal(mCurModel);
                     if (saved) {
@@ -184,7 +181,7 @@ public class ChooseActivity extends BaseActivity {
                     ToastUtil.showToast(this, "模版存储失败，照片将被保存到系统相册", Toast.LENGTH_SHORT);
                 }
                 startActivity(intent);
-                ChooseActivity.this.finish();
+                ICChooseActivity.this.finish();
                 break;
         }
     }

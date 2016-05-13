@@ -16,23 +16,23 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 /**
  * Created by JerryYin on 4/20/16.
  */
-public class CameraApplication extends Application {
+public class ICApplication extends Application {
 
 
-    protected static CameraApplication mInstance;
+    protected static ICApplication mInstance;
     private DisplayMetrics displayMetrics = null;
 
-    public CameraApplication() {
+    public ICApplication() {
         mInstance = this;
     }
 
-    public static CameraApplication getApp() {
-        if (mInstance != null && mInstance instanceof CameraApplication) {
-            return (CameraApplication) mInstance;
+    public static ICApplication getApp() {
+        if (mInstance != null && mInstance instanceof ICApplication) {
+            return (ICApplication) mInstance;
         } else {
-            mInstance = new CameraApplication();
+            mInstance = new ICApplication();
             mInstance.onCreate();
-            return (CameraApplication) mInstance;
+            return (ICApplication) mInstance;
         }
     }
 
@@ -55,7 +55,7 @@ public class CameraApplication extends Application {
                 .defaultDisplayImageOptions(defaultOptions)
                 .denyCacheImageMultipleSizesInMemory()
                 .diskCacheFileNameGenerator(new Md5FileNameGenerator())
-                .diskCache(new UnlimitedDiskCache(StorageUtils.getOwnCacheDirectory(this, CameraAppConstants.APP_IMAGE)))
+                .diskCache(new UnlimitedDiskCache(StorageUtils.getOwnCacheDirectory(this, ICConstants.APP_IMAGE)))
                 .diskCacheSize(100 * 1024 * 1024).tasksProcessingOrder(QueueProcessingType.LIFO)
                 .memoryCache(new LruMemoryCache(2 * 1024 * 1024)).memoryCacheSize(2 * 1024 * 1024)
                 .threadPoolSize(3)

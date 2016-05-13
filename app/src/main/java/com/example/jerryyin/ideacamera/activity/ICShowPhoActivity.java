@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.example.jerryyin.ideacamera.R;
-import com.example.jerryyin.ideacamera.base.BaseActivity;
+import com.example.jerryyin.ideacamera.base.ICBaseActivity;
 import com.example.jerryyin.ideacamera.util.common.ImageUtils;
 
 import butterknife.Bind;
@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 /**
  * Created by JerryYin on 4/23/16.
  */
-public class ShowPhoActivity extends BaseActivity {
+public class ICShowPhoActivity extends ICBaseActivity {
 
 
     @Bind(R.id.img_show)

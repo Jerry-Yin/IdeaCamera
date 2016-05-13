@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.jerryyin.ideacamera.R;
-import com.example.jerryyin.ideacamera.base.BaseActivity;
+import com.example.jerryyin.ideacamera.base.ICBaseActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -17,7 +17,7 @@ import butterknife.OnClick;
 /**
  * Created by JerryYin on 4/21/16.
  */
-public class MainActivity extends BaseActivity {
+public class ICMainActivity extends ICBaseActivity {
 
     @NonNull
     @Bind(R.id.btn_go_pic)
@@ -38,7 +38,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.layout_main);
         ButterKnife.bind(this);
 
-
     }
 
 
@@ -46,12 +45,12 @@ public class MainActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_go_pic:
-                startActivity(new Intent(MainActivity.this, CameraActivity.class));
+                startActivity(new Intent(ICMainActivity.this, ICCameraActivity.class));
 //                this.finish();
                 break;
 
             case R.id.main_part1_module_manage:
-                startActivity(new Intent(this, ModuleManagerActivity.class));
+                startActivity(new Intent(this, ICModuleManagerActivity.class));
                 break;
 
             case R.id.main_part2_beauty:
@@ -63,7 +62,7 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case R.id.main_part4_setting:
-                startActivity(new Intent(this, SettingActivity.class));
+                startActivity(new Intent(this, ICSettingActivity.class));
                 break;
         }
     }

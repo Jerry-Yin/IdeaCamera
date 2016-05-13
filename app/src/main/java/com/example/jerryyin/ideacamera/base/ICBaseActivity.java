@@ -6,9 +6,10 @@ import android.os.Bundle;
 import butterknife.ButterKnife;
 
 /**
- * Created by JerryYin on 4/19/16.
+ * Created by JerryYin on 5/13/16.
  */
-public abstract class BaseActivity extends Activity {
+public class ICBaseActivity extends Activity {
+
 
 //    public abstract int getContentViewId();
 
@@ -26,5 +27,3 @@ public abstract class BaseActivity extends Activity {
         ButterKnife.unbind(this);
     }
 }
-
-

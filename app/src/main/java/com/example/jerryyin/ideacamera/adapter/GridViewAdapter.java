@@ -3,7 +3,6 @@ package com.example.jerryyin.ideacamera.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.ImageView;
 
 
 import com.example.jerryyin.ideacamera.R;
-import com.example.jerryyin.ideacamera.activity.ShowPhoActivity;
 import com.example.jerryyin.ideacamera.model.PhotoItem;
 import com.example.jerryyin.ideacamera.util.common.DistanceUtil;
 import com.example.jerryyin.ideacamera.util.common.ImageLoaderUtils;
@@ -31,7 +29,7 @@ public class GridViewAdapter extends BaseAdapter {
     public static GalleryHolder holder;
 
     /**
-     * @param context AlbumActivity
+     * @param context ICAlbumActivity
      * @param values
      */
     public GridViewAdapter(Context context, List<PhotoItem> values) {
@@ -74,7 +72,7 @@ public class GridViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //自定义界面查看
-//                Intent intent =new Intent(mContext, ShowPhoActivity.class);
+//                Intent intent =new Intent(mContext, ICShowPhoActivity.class);
 //                Uri uri = Uri.parse("file://"+gallery.getImageUri());
 //                Log.d(TAG, "uri = "+uri);
 //                intent.setData(uri);

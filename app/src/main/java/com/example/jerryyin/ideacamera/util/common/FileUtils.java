@@ -5,7 +5,7 @@ import android.content.res.AssetManager;
 import android.os.Environment;
 import android.text.TextUtils;
 
-import com.example.jerryyin.ideacamera.base.CameraApplication;
+import com.example.jerryyin.ideacamera.base.ICApplication;
 import com.example.jerryyin.ideacamera.model.PhotoItem;
 
 import java.io.BufferedReader;
@@ -84,7 +84,7 @@ public class FileUtils {
         InputStream is = null;
         BufferedReader br = null;
         try {
-            is = CameraApplication.getApp().getAssets().open(fileName);
+            is = ICApplication.getApp().getAssets().open(fileName);
             br = new BufferedReader(new InputStreamReader(is));
             String addonStr = "";
             String line = br.readLine();
@@ -150,7 +150,7 @@ public class FileUtils {
             BASE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()
                         + "/ideacamera/";
         } else {
-            BASE_PATH = CameraApplication.getApp().getCacheDirPath();
+            BASE_PATH = ICApplication.getApp().getCacheDirPath();
         }
 
         STICKER_BASE_PATH = BASE_PATH + "/idea/";
@@ -295,7 +295,7 @@ public class FileUtils {
     }
 
     public File getCacheDir() {
-        return CameraApplication.getApp().getCacheDir();
+        return ICApplication.getApp().getCacheDir();
     }
 
 

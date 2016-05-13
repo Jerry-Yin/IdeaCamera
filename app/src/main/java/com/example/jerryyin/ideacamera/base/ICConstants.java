@@ -5,7 +5,7 @@ import android.os.Environment;
 /**
  * Created by sky on 2015/7/6.
  */
-public class CameraAppConstants {
+public class ICConstants {
 
 
     public static final String APP_DIR                    = Environment.getExternalStorageDirectory() + "/IdeaCamera";

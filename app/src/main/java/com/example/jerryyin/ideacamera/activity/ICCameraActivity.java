@@ -27,9 +27,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.jerryyin.ideacamera.base.CameraApplication;
+import com.example.jerryyin.ideacamera.base.ICApplication;
 import com.example.jerryyin.ideacamera.R;
-import com.example.jerryyin.ideacamera.base.BaseActivity;
+import com.example.jerryyin.ideacamera.base.ICBaseActivity;
 import com.example.jerryyin.ideacamera.model.PhotoItem;
 import com.example.jerryyin.ideacamera.util.CameraHelper;
 import com.example.jerryyin.ideacamera.util.IdeaCameraManager;
@@ -53,9 +53,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CameraActivity extends BaseActivity {
+public class ICCameraActivity extends ICBaseActivity {
 
-    private static final String TAG = "CameraActivity";
+    private static final String TAG = "ICCameraActivity";
     /**
      * 最小预览界面的分辨率
      */
@@ -289,12 +289,12 @@ public class CameraActivity extends BaseActivity {
                 break;
 
             case R.id.img_back:
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, ICMainActivity.class));
                 this.finish();
                 break;
 
             case R.id.img_album:
-                startActivity(new Intent(this, GalleryActivity.class));
+                startActivity(new Intent(this, ICGalleryActivity.class));
                 break;
         }
     }
@@ -315,8 +315,8 @@ public class CameraActivity extends BaseActivity {
         if (mParameters.getMaxNumMeteringAreas() > 0) {
             List<Camera.Area> areas = new ArrayList<Camera.Area>();
             //xy变换了
-            int rectY = -x * 2000 / CameraApplication.getApp().getScreenWidth() + 1000;
-            int rectX = y * 2000 / CameraApplication.getApp().getScreenHeight() - 1000;
+            int rectY = -x * 2000 / ICApplication.getApp().getScreenWidth() + 1000;
+            int rectX = y * 2000 / ICApplication.getApp().getScreenHeight() - 1000;
 
             int left = rectX < -900 ? -1000 : rectX - 100;
             int top = rectY < -900 ? -1000 : rectY - 100;
@@ -496,8 +496,8 @@ public class CameraActivity extends BaseActivity {
 
 
         // 移除不符合条件的分辨率
-        double screenAspectRatio = (double) CameraApplication.getApp().getScreenWidth()
-                / (double) CameraApplication.getApp().getScreenHeight();
+        double screenAspectRatio = (double) ICApplication.getApp().getScreenWidth()
+                / (double) ICApplication.getApp().getScreenHeight();
         Iterator<Camera.Size> it = supportedPreviewResolutions.iterator();
         while (it.hasNext()) {
             Camera.Size supportedPreviewResolution = it.next();
@@ -524,8 +524,8 @@ public class CameraActivity extends BaseActivity {
             }
 
             // 找到与屏幕分辨率完全匹配的预览界面分辨率直接返回
-            if (maybeFlippedWidth == CameraApplication.getApp().getScreenWidth()
-                    && maybeFlippedHeight == CameraApplication.getApp().getScreenHeight()) {
+            if (maybeFlippedWidth == ICApplication.getApp().getScreenWidth()
+                    && maybeFlippedHeight == ICApplication.getApp().getScreenHeight()) {
                 return supportedPreviewResolution;
             }
         }
@@ -575,8 +575,8 @@ public class CameraActivity extends BaseActivity {
         });
 
         // 移除不符合条件的分辨率
-        double screenAspectRatio = (double) CameraApplication.getApp().getScreenWidth()
-                / (double) CameraApplication.getApp().getScreenHeight();
+        double screenAspectRatio = (double) ICApplication.getApp().getScreenWidth()
+                / (double) ICApplication.getApp().getScreenHeight();
         Iterator<Camera.Size> it = sortedSupportedPicResolutions.iterator();
         while (it.hasNext()) {
             Camera.Size supportedPreviewResolution = it.next();
@@ -680,7 +680,7 @@ public class CameraActivity extends BaseActivity {
         }
 
         protected void onPreExecute() {
-            DialogUtil.showProgressDialog(CameraActivity.this, "处理中");
+            DialogUtil.showProgressDialog(ICCameraActivity.this, "处理中");
         }
 
         @Override
@@ -700,10 +700,10 @@ public class CameraActivity extends BaseActivity {
             if (!TextUtils.isEmpty(result)) {
                 //result-->照片保存的路径
                 DialogUtil.dismissDialog();
-                IdeaCameraManager.getInst().processPhotoItem(CameraActivity.this,
+                IdeaCameraManager.getInst().processPhotoItem(ICCameraActivity.this,
                         new PhotoItem(result, System.currentTimeMillis()));
             } else {
-                ToastUtil.showToast(CameraActivity.this, "拍照失败，请稍后重试！", Toast.LENGTH_LONG);
+                ToastUtil.showToast(ICCameraActivity.this, "拍照失败，请稍后重试！", Toast.LENGTH_LONG);
             }
         }
     }

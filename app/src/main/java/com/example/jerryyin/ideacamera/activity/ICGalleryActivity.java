@@ -10,16 +10,14 @@ import android.widget.TextView;
 
 import com.example.jerryyin.ideacamera.R;
 import com.example.jerryyin.ideacamera.adapter.CusGalleryAdapter;
-import com.example.jerryyin.ideacamera.base.BaseActivity;
+import com.example.jerryyin.ideacamera.base.ICBaseActivity;
 import com.example.jerryyin.ideacamera.model.Album;
 import com.example.jerryyin.ideacamera.model.CameraModel;
 import com.example.jerryyin.ideacamera.model.PhotoItem;
 import com.example.jerryyin.ideacamera.util.CameraModelService;
-import com.example.jerryyin.ideacamera.util.common.ImageLoaderUtils;
 import com.example.jerryyin.ideacamera.util.common.ImageUtils;
 import com.example.jerryyin.ideacamera.util.common.StringUtils;
 import com.example.jerryyin.ideacamera.view.CustomGallery;
-import com.example.jerryyin.ideacamera.view.GalleryFlow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +29,7 @@ import butterknife.ButterKnife;
 /**
  * Created by JerryYin on 4/22/16.
  */
-public class GalleryActivity extends BaseActivity implements AdapterView.OnItemClickListener {
+public class ICGalleryActivity extends ICBaseActivity implements AdapterView.OnItemClickListener {
 
 
     @Bind(R.id.gallery)
@@ -117,7 +115,7 @@ public class GalleryActivity extends BaseActivity implements AdapterView.OnItemC
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(GalleryActivity.this, AlbumActivity.class);
+        Intent intent = new Intent(ICGalleryActivity.this, ICAlbumActivity.class);
         LinearLayout layout = (LinearLayout) view;
         TextView name = (TextView) layout.getChildAt(1);
         intent.putExtra("title", name.getText());

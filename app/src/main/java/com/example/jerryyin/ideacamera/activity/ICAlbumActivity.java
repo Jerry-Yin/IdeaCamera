@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.jerryyin.ideacamera.R;
 import com.example.jerryyin.ideacamera.adapter.GridViewAdapter;
-import com.example.jerryyin.ideacamera.base.BaseActivity;
+import com.example.jerryyin.ideacamera.base.ICBaseActivity;
 import com.example.jerryyin.ideacamera.model.Album;
 import com.example.jerryyin.ideacamera.model.CameraModel;
 import com.example.jerryyin.ideacamera.model.PhotoItem;
@@ -31,13 +31,13 @@ import butterknife.ButterKnife;
  * Created by JerryYin on 4/21/16.
  * 显示照片
  */
-public class AlbumActivity extends BaseActivity implements AdapterView.OnItemClickListener {
+public class ICAlbumActivity extends ICBaseActivity implements AdapterView.OnItemClickListener {
 
 
     @Bind(R.id.albums)
     GridView mGridView;
 
-    private static final String TAG = "AlbumActivity";
+    private static final String TAG = "ICAlbumActivity";
     @Bind(R.id.tv_model_name)
     TextView mTvModelName;
 

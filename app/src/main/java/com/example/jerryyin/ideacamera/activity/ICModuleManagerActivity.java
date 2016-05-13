@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.jerryyin.ideacamera.R;
 import com.example.jerryyin.ideacamera.adapter.ModuleListAdapter;
-import com.example.jerryyin.ideacamera.base.BaseActivity;
+import com.example.jerryyin.ideacamera.base.ICBaseActivity;
 import com.example.jerryyin.ideacamera.model.CameraModel;
 import com.example.jerryyin.ideacamera.util.CameraModelService;
 import com.example.jerryyin.ideacamera.util.common.ToastUtil;
@@ -30,7 +30,7 @@ import butterknife.OnClick;
  * 管理自定义模版
  * 可以添加，删除，编辑
  */
-public class ModuleManagerActivity extends BaseActivity implements CustomListView.ItemClickListener{
+public class ICModuleManagerActivity extends ICBaseActivity implements CustomListView.ItemClickListener{
 
 
     @Bind(R.id.btn_back)
