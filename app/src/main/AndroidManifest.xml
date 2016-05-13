@@ -42,6 +42,8 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.ICModuleManagerActivity"></activity>
         <activity android:name=".activity.ICAboutActivity"></activity>
+        <activity android:name=".activity.ICFileDirActivity"></activity>
+        <activity android:name=".activity.ICPhotoEditActivity"></activity>
     </application>
 
 </manifest>

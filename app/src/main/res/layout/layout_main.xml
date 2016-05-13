@@ -6,6 +6,7 @@
     android:background="@drawable/background_main"
     android:orientation="vertical">
 
+    <include layout="@layout/layout_title_bar"></include>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -59,7 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="照片美化"
+                    android:text="照片修修"
                     android:textColor="#FF6F00" />
             </LinearLayout>
 

@@ -122,7 +122,7 @@ public class ICSettingActivity extends ICBaseActivity {
                 break;
 
             case R.id.btn_file_dir:
-
+                startActivity(new Intent(this, ICFileDirActivity.class));
                 break;
         }
     }

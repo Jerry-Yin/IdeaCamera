@@ -1,7 +1,6 @@
 package com.example.jerryyin.ideacamera.activity;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -10,12 +9,11 @@ import com.example.jerryyin.ideacamera.base.ICBaseActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by JerryYin on 5/13/16.
  */
-public class ICAboutActivity extends ICBaseActivity {
+public class ICPhotoEditActivity extends ICBaseActivity {
 
 
     @Bind(R.id.btn_back)
@@ -28,19 +26,17 @@ public class ICAboutActivity extends ICBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_about_ic);
+        setContentView(R.layout.layout_photo_edit);
         ButterKnife.bind(this);
 
         initViews();
     }
 
     private void initViews() {
-        tvTitle.setText("关于");
-        tvOk.setVisibility(View.INVISIBLE);
+        tvTitle.setText("照片编辑");
+
     }
 
-    @OnClick(R.id.btn_back)
-    public void onClick() {
-        this.finish();
-    }
+
+
 }

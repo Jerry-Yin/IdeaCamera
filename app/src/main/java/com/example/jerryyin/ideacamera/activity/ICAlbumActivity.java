@@ -1,13 +1,11 @@
 package com.example.jerryyin.ideacamera.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.jerryyin.ideacamera.R;
@@ -26,6 +24,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by JerryYin on 4/21/16.
@@ -38,8 +37,14 @@ public class ICAlbumActivity extends ICBaseActivity implements AdapterView.OnIte
     GridView mGridView;
 
     private static final String TAG = "ICAlbumActivity";
-    @Bind(R.id.tv_model_name)
-    TextView mTvModelName;
+//    @Bind(R.id.tv_model_name)
+//    TextView mTvModelName;
+    @Bind(R.id.btn_back)
+    LinearLayout btnBack;
+    @Bind(R.id.tv_title)
+    TextView tvTitle;
+    @Bind(R.id.tv_ok)
+    TextView tvOk;
 
     private ArrayList<PhotoItem> photos = new ArrayList<PhotoItem>();
     private GridViewAdapter mGridViewAdapter;
@@ -86,7 +91,7 @@ public class ICAlbumActivity extends ICBaseActivity implements AdapterView.OnIte
 
     private void setupViews() {
 //        mTvModelName.setText(albums.get(paths.get(mCurPosition)).getTitle());
-        mTvModelName.setText(mCurTitle);
+        tvTitle.setText(mCurTitle);
         mGridViewAdapter = new GridViewAdapter(this, photos);
         mGridView.setAdapter(mGridViewAdapter);
         mGridView.setOnItemClickListener(this);
@@ -97,5 +102,10 @@ public class ICAlbumActivity extends ICBaseActivity implements AdapterView.OnIte
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
+    }
+
+    @OnClick(R.id.btn_back)
+    public void onClick() {
+        this.finish();
     }
 }

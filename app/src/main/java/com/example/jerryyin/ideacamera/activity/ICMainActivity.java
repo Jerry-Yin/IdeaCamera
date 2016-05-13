@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.jerryyin.ideacamera.R;
 import com.example.jerryyin.ideacamera.base.ICBaseActivity;
@@ -30,6 +31,12 @@ public class ICMainActivity extends ICBaseActivity {
     LinearLayout mainPart3Others;
     @Bind(R.id.main_part4_setting)
     LinearLayout mainPart4Setting;
+    @Bind(R.id.btn_back)
+    LinearLayout btnBack;
+    @Bind(R.id.tv_title)
+    TextView tvTitle;
+    @Bind(R.id.tv_ok)
+    TextView tvOk;
 
 
     @Override
@@ -38,6 +45,13 @@ public class ICMainActivity extends ICBaseActivity {
         setContentView(R.layout.layout_main);
         ButterKnife.bind(this);
 
+        initViews();
+    }
+
+    private void initViews() {
+        tvTitle.setText(R.string.app_name);
+        btnBack.setVisibility(View.INVISIBLE);
+        tvOk.setVisibility(View.INVISIBLE);
     }
 
 
@@ -54,7 +68,7 @@ public class ICMainActivity extends ICBaseActivity {
                 break;
 
             case R.id.main_part2_beauty:
-
+                startActivity(new Intent(this, ICPhotoEditActivity.class));
                 break;
 
             case R.id.main_part3_others:

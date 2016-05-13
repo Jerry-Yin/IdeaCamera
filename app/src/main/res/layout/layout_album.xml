@@ -6,16 +6,18 @@
     android:orientation="vertical">
     <!-- title -->
 
-    <TextView
-        android:id="@+id/tv_model_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="model"
-        android:textColor="#ffffff"
-        android:textSize="18sp"
-        android:padding="5dp"
-        android:background="@color/colorPrimary"/>
+    <!--<TextView-->
+        <!--android:id="@+id/tv_model_name"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:text="model"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:textSize="18sp"-->
+        <!--android:padding="5dp"-->
+        <!--android:background="@color/colorPrimary"/>-->
+
+    <include layout="@layout/layout_title_bar"></include>
     <GridView
         android:id="@+id/albums"
         android:layout_width="fill_parent"

@@ -2,12 +2,8 @@ package com.example.jerryyin.ideacamera.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jerryyin.ideacamera.R;
@@ -30,13 +26,17 @@ import butterknife.OnClick;
  * 管理自定义模版
  * 可以添加，删除，编辑
  */
-public class ICModuleManagerActivity extends ICBaseActivity implements CustomListView.ItemClickListener{
+public class ICModuleManagerActivity extends ICBaseActivity implements CustomListView.ItemClickListener {
 
 
     @Bind(R.id.btn_back)
     LinearLayout mBtnBack;
     @Bind(R.id.list_module)
     CustomListView mLvModule;
+    @Bind(R.id.tv_title)
+    TextView tvTitle;
+    @Bind(R.id.tv_ok)
+    TextView tvOk;
 
     private CameraModelService mModelService;
     private List<CameraModel> mModelLists;
@@ -56,7 +56,8 @@ public class ICModuleManagerActivity extends ICBaseActivity implements CustomLis
     }
 
     private void initViews() {
-
+        tvTitle.setText("模版管理");
+        tvOk.setVisibility(View.INVISIBLE);
     }
 
 
@@ -72,8 +73,8 @@ public class ICModuleManagerActivity extends ICBaseActivity implements CustomLis
     }
 
     private void addTestData() {
-        for (int i=0; i<20; i++){
-            mModuleNameList.add("测试数据 "+i);
+        for (int i = 0; i < 20; i++) {
+            mModuleNameList.add("测试数据 " + i);
         }
     }
 
@@ -100,6 +101,6 @@ public class ICModuleManagerActivity extends ICBaseActivity implements CustomLis
 
     @Override
     public void onItemClick(int position) {
-        ToastUtil.showToast(this, "clicked item"+ position, Toast.LENGTH_SHORT);
+        ToastUtil.showToast(this, "clicked item" + position, Toast.LENGTH_SHORT);
     }
 }
