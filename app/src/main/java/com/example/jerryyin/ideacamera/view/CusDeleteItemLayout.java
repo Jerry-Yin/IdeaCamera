@@ -45,13 +45,14 @@ public class CusDeleteItemLayout extends LinearLayout {
         for (int i = 0; i < count; i++) {
             measureChild(getChildAt(i), widthMeasureSpec, heightMeasureSpec);
             if (i == 1) {
-                back_width = getChildAt(i).getMeasuredWidth();
+                back_width = getChildAt(i).getMeasuredWidth();      //第一个字子控件的宽度，也就是删除的item的左边部分layout（数据部分）。
             }
         }
     }
 
     public void reSet(){
         scrollTo(0, 0);
+//        scrollTo(back_width, 0);
         ModuleListAdapter.itemDelete = null;
     }
 

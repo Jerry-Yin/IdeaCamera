@@ -75,38 +75,27 @@ public class ModuleListAdapter extends BaseAdapter  {
                 ToastUtil.showToast(mContext, "置顶", Toast.LENGTH_SHORT);
             }
         });
-        final View finalConvertView = convertView;
         holder.btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ToastUtil.showToast(mContext, "删除", Toast.LENGTH_SHORT);
                 mDataList.remove(position);
                 notifyDataSetChanged();
-//                finalConvertView.findViewById(R.id.extra_item).setVisibility(View.GONE);
+                ItemDeleteReset();
+
             }
         });
 
         return convertView;
     }
 
+
+    //重置ListView item 位置
     public static void ItemDeleteReset() {
         if (itemDelete != null) {
             itemDelete.reSet();
         }
     }
 
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()){
-//            case R.id.btn_to_top:
-//                ToastUtil.showToast(mContext, "置顶", Toast.LENGTH_SHORT);
-//                break;
-//
-//            case R.id.btn_delete:
-//                ToastUtil.showToast(mContext, "删除", Toast.LENGTH_SHORT);
-//                mDataList.remove()
-//                break;
-//        }
-//    }
 
 }
