@@ -97,5 +97,4 @@ public class ModuleListAdapter extends BaseAdapter  {
         }
     }
 
-
 }

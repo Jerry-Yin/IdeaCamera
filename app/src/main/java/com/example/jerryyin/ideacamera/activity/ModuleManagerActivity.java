@@ -3,16 +3,19 @@ package com.example.jerryyin.ideacamera.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.jerryyin.ideacamera.R;
 import com.example.jerryyin.ideacamera.adapter.ModuleListAdapter;
 import com.example.jerryyin.ideacamera.base.BaseActivity;
 import com.example.jerryyin.ideacamera.model.CameraModel;
 import com.example.jerryyin.ideacamera.util.CameraModelService;
+import com.example.jerryyin.ideacamera.util.common.ToastUtil;
 import com.example.jerryyin.ideacamera.view.CustomListView;
 
 import java.util.ArrayList;
@@ -27,7 +30,7 @@ import butterknife.OnClick;
  * 管理自定义模版
  * 可以添加，删除，编辑
  */
-public class ModuleManagerActivity extends BaseActivity {
+public class ModuleManagerActivity extends BaseActivity implements CustomListView.ItemClickListener{
 
 
     @Bind(R.id.btn_back)
@@ -64,6 +67,7 @@ public class ModuleManagerActivity extends BaseActivity {
         addTestData();
         mArrayAdapter = new ModuleListAdapter(this, mModuleNameList);
         mLvModule.setAdapter(mArrayAdapter);
+        mLvModule.setOnItemClickListener(this);
 
     }
 
@@ -88,5 +92,14 @@ public class ModuleManagerActivity extends BaseActivity {
     }
 
 
+//    @Override
+//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        ToastUtil.showToast(this, "clicked item"+ position, Toast.LENGTH_SHORT);
+//
+//    }
 
+    @Override
+    public void onItemClick(int position) {
+        ToastUtil.showToast(this, "clicked item"+ position, Toast.LENGTH_SHORT);
+    }
 }

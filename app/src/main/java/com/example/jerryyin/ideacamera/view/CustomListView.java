@@ -60,9 +60,11 @@ public class CustomListView extends ListView implements AbsListView.OnScrollList
         boolean dte = super.dispatchTouchEvent(event);
         if (MotionEvent.ACTION_UP == event.getAction() && !dte) {//onItemClick
             int position = pointToPosition((int)event.getX(), (int)event.getY());
+            Log.e("CustomListView", "onItemClickListener = "+onItemClickListener);
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(position);
             }
+
         }
         return dte;
     }
