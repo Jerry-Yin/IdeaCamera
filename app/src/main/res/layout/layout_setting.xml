@@ -72,7 +72,7 @@
                     android:layout_height="match_parent"
                     android:text="画廊效果切换"
                     android:textColor="@color/text_color"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
                     android:gravity="center_vertical"/>
 
                 <TextView
@@ -94,6 +94,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/btn_part2"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="0.8dp"
@@ -104,9 +105,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="part2"
+                    android:text="照片存储路径"
                     android:textColor="@color/text_color"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
                     android:gravity="center_vertical"/>
 
                 <TextView
@@ -127,6 +128,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/btn_part3"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/btn_item_click"
@@ -146,7 +148,7 @@
                     android:layout_height="match_parent"
                     android:layout_toLeftOf="@+id/img3"
                     android:text="part3"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
                     android:layout_marginRight="10dp"
                     android:gravity="center_vertical"/>
 
@@ -172,7 +174,7 @@
                     android:layout_height="match_parent"
                     android:text="关于IdeaCamera"
                     android:textColor="@color/text_color"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
                     android:gravity="center_vertical"/>
 
                 <ImageView

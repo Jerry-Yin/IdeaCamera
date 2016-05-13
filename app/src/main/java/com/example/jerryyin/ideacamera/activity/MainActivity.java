@@ -2,6 +2,7 @@ package com.example.jerryyin.ideacamera.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -18,7 +19,7 @@ import butterknife.OnClick;
  */
 public class MainActivity extends BaseActivity {
 
-
+    @NonNull
     @Bind(R.id.btn_go_pic)
     FloatingActionButton mBtnGoPic;
     @Bind(R.id.main_part1_module_manage)
@@ -29,6 +30,7 @@ public class MainActivity extends BaseActivity {
     LinearLayout mainPart3Others;
     @Bind(R.id.main_part4_setting)
     LinearLayout mainPart4Setting;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,7 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case R.id.main_part1_module_manage:
-                startActivity(new Intent());
+                startActivity(new Intent(this, ModuleManagerActivity.class));
                 break;
 
             case R.id.main_part2_beauty:
