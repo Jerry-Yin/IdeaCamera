@@ -39,6 +39,12 @@ public class SettingActivity extends BaseActivity {
     RelativeLayout mBtnAbout;
     @Bind(R.id.txt_3d)
     TextView mTxtReflect;
+    @Bind(R.id.tv_cur_dir)
+    TextView tvCurDir;
+    @Bind(R.id.btn_file_dir)
+    RelativeLayout btnFileDir;
+    @Bind(R.id.btn_part3)
+    RelativeLayout btnPart3;
 
     private SharedPreferences.Editor mEditor;
     private String mCurReflect = "";
@@ -57,7 +63,7 @@ public class SettingActivity extends BaseActivity {
     private void initViews() {
         mTxtReflect.setText(
                 getSharedPreferences(CameraAppConstants.PREFERENCE_NAME, MODE_PRIVATE)
-                .getString(CameraAppConstants.KEY_REFLECT, CameraAppConstants.ITEM_REFLECTS[0]));
+                        .getString(CameraAppConstants.KEY_REFLECT, CameraAppConstants.ITEM_REFLECTS[0]));
     }
 
     private void initDatas() {
@@ -99,7 +105,7 @@ public class SettingActivity extends BaseActivity {
                 .create().show();
     }
 
-    @OnClick({R.id.btn_back, R.id.btn_change_3d, R.id.btn_about})
+    @OnClick({R.id.btn_back, R.id.btn_change_3d, R.id.btn_about, R.id.btn_file_dir})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
@@ -113,6 +119,11 @@ public class SettingActivity extends BaseActivity {
             case R.id.btn_about:
 
                 break;
+
+            case R.id.btn_file_dir:
+
+                break;
         }
     }
+
 }

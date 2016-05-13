@@ -13,7 +13,7 @@ import android.widget.Scroller;
  * 滑动时候显示的删除item
  */
 
-public class ListItemDelete extends LinearLayout {
+public class CusDeleteItemLayout extends LinearLayout {
 
     private Scroller mScroller;// 滑动控制
     private float mLastMotionX;// 记住上次触摸屏的位置
@@ -21,11 +21,11 @@ public class ListItemDelete extends LinearLayout {
     private int back_width;
     private float downX;
 
-    public ListItemDelete(Context context) {
+    public CusDeleteItemLayout(Context context) {
         this(context, null);
     }
 
-    public ListItemDelete(Context context, AttributeSet attrs) {
+    public CusDeleteItemLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }

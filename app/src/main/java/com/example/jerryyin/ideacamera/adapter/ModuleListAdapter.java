@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ public class ModuleListAdapter extends BaseAdapter {
     class ViewHolder {
         ImageView img;
         TextView txt_name;
+        Button btn_to_top, btn_delete;
     }
 
     @Override
@@ -55,10 +57,12 @@ public class ModuleListAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.layout_item_module_manager, null);
             holder.txt_name = (TextView) convertView.findViewById(R.id.tv_name_module);
+            holder.btn_to_top = (Button) convertView.findViewById(R.id.btn_to_top);
+            holder.btn_delete = (Button) convertView.findViewById(R.id.btn_delete);
+            convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        convertView.setTag(holder);
         holder.txt_name.setText(mDataList.get(position));
         return convertView;
     }

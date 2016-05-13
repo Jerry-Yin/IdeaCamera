@@ -13,6 +13,7 @@ import com.example.jerryyin.ideacamera.adapter.ModuleListAdapter;
 import com.example.jerryyin.ideacamera.base.BaseActivity;
 import com.example.jerryyin.ideacamera.model.CameraModel;
 import com.example.jerryyin.ideacamera.util.CameraModelService;
+import com.example.jerryyin.ideacamera.view.CustomListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class ModuleManagerActivity extends BaseActivity {
     @Bind(R.id.btn_back)
     LinearLayout mBtnBack;
     @Bind(R.id.list_module)
-    ListView mLvModule;
+    CustomListView mLvModule;
 
     private CameraModelService mModelService;
     private List<CameraModel> mModelLists;

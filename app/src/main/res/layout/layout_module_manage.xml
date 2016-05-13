@@ -50,10 +50,10 @@
         android:layout_margin="10dp"
         android:layout_weight="1">
 
-        <ListView
+        <com.example.jerryyin.ideacamera.view.CustomListView
             android:id="@+id/list_module"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></ListView>
+            android:layout_height="wrap_content"></com.example.jerryyin.ideacamera.view.CustomListView>
     </RelativeLayout>
 
 </LinearLayout>
