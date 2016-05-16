@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray2"
     android:orientation="vertical"
-    tools:context=".activity.ICFileBrowserActivity"
-    android:background="@color/gray2">
+    tools:context=".activity.ICFileBrowserActivity">
 
     <include layout="@layout/layout_title_bar"></include>
 
@@ -25,35 +25,53 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:gravity="left"/>
+            android:gravity="left"
+            android:textSize="18sp" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/list_view_dir"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="5dp"
         android:layout_weight="1">
 
-    </ListView>
+        <ListView
+            android:id="@+id/list_view_dir"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        </ListView>
 
-        <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="取消" />
+            android:layout_gravity="bottom"
+            android:layout_margin="10dp">
 
-        <Button
-            android:id="@+id/btn_select"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="确定" />
-    </RelativeLayout>
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="取消"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="确定"
+                android:visibility="gone" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_select2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_done" />
+        </RelativeLayout>
+    </FrameLayout>
+
 
 </LinearLayout>

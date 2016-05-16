@@ -3,6 +3,7 @@ package com.example.jerryyin.ideacamera.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -42,6 +43,8 @@ public class ICFileBrowserActivity extends ICBaseActivity implements View.OnClic
     Button btnCancel;
     //    @Bind(R.id.btn_select)
     Button btnSelect;
+//    @Bind(R.id.btn_select2)
+    FloatingActionButton btnSelect2;
 
 
     private String mRootPath = "/sdcard";   //默认的SdCard根目录
@@ -54,6 +57,7 @@ public class ICFileBrowserActivity extends ICBaseActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_file_browser);
+        ButterKnife.bind(this);
 //        ButterKnife.bind(this);
 
         initViews();
@@ -67,11 +71,12 @@ public class ICFileBrowserActivity extends ICBaseActivity implements View.OnClic
         tvCurDir = (TextView) findViewById(R.id.tv_cur_dir);
         btnCancel = (Button) findViewById(R.id.btn_cancel);
         btnSelect = (Button) findViewById(R.id.btn_select);
+        btnSelect2 = (FloatingActionButton) findViewById(R.id.btn_select2);
         listViewDir = (ListView) findViewById(R.id.list_view_dir);
         btnBack.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
         btnSelect.setOnClickListener(this);
-
+        btnSelect2.setOnClickListener(this);
 
         tvOk.setVisibility(View.INVISIBLE);
         tvTitle.setText("存储路径选择");
@@ -173,6 +178,10 @@ public class ICFileBrowserActivity extends ICBaseActivity implements View.OnClic
                 break;
 
             case R.id.btn_select:
+                select();
+                break;
+
+            case R.id.btn_select2:
                 select();
                 break;
         }
