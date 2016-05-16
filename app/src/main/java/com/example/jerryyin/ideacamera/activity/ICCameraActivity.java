@@ -2,6 +2,7 @@ package com.example.jerryyin.ideacamera.activity;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 import com.example.jerryyin.ideacamera.base.ICApplication;
 import com.example.jerryyin.ideacamera.R;
 import com.example.jerryyin.ideacamera.base.ICBaseActivity;
+import com.example.jerryyin.ideacamera.conatants.ICConstants;
 import com.example.jerryyin.ideacamera.model.PhotoItem;
 import com.example.jerryyin.ideacamera.util.CameraHelper;
 import com.example.jerryyin.ideacamera.util.IdeaCameraManager;
@@ -82,6 +84,9 @@ public class ICCameraActivity extends ICBaseActivity {
     private Camera.Size mAdapterSize = null;
     private Camera.Size mPreviewSize = null;
 
+    private SharedPreferences mPreferences;
+    private String mImgSavePath;    //照片存储路径m
+
 
     @Bind(R.id.surface_view)
     SurfaceView mSurfaceView;
@@ -108,13 +113,12 @@ public class ICCameraActivity extends ICBaseActivity {
         mCameraHelper = new CameraHelper(this);
 
         initViews();
+        initData();
         initEvents();
 
     }
 
     private void initViews() {
-
-
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         mSurfaceHolder.setKeepScreenOn(true);
@@ -140,6 +144,12 @@ public class ICCameraActivity extends ICBaseActivity {
 //        for (int i = 0; i < showNumber; i++) {
 //            addPhoto(sysPhotos.get(showNumber - 1 - i));
 //        }
+    }
+
+    private void initData() {
+        mPreferences = getSharedPreferences(ICConstants.PREFERENCE_NAME, MODE_PRIVATE);
+        //获取用户当前设置的存储路径，没有则默认是系统照片存储路径
+        mImgSavePath = mPreferences.getString(ICConstants.KEY_IMG_DIR, FileUtils.getInst().getSystemPhotoPath());
     }
 
     private void initEvents() {
@@ -749,7 +759,7 @@ public class ICCameraActivity extends ICBaseActivity {
 //        Log.d(TAG, "bitmap.width = "+croppedImage.getWidth() + "height = "+croppedImage.getHeight());
 
 
-        String imagePath = ImageUtils.saveToFile(FileUtils.getInst().getSystemPhotoPath(), true,
+        String imagePath = ImageUtils.saveToFile(mImgSavePath, true,
                 bmp);  //存储到系统相册目录下
 //        croppedImage.recycle();
         bmp.recycle();

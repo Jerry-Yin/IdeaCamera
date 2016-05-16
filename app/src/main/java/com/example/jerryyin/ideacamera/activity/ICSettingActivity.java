@@ -5,16 +5,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jerryyin.ideacamera.R;
 import com.example.jerryyin.ideacamera.base.ICBaseActivity;
-import com.example.jerryyin.ideacamera.base.ICConstants;
+import com.example.jerryyin.ideacamera.conatants.ICConstants;
+import com.example.jerryyin.ideacamera.util.common.FileUtils;
+import com.example.jerryyin.ideacamera.util.common.ToastUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,6 +55,7 @@ public class ICSettingActivity extends ICBaseActivity {
     RelativeLayout btnPart3;
 
     private SharedPreferences.Editor mEditor;
+    private SharedPreferences mPreferences;
     private String mCurReflect = "";
     private String mCurDir;
 
@@ -72,9 +77,12 @@ public class ICSettingActivity extends ICBaseActivity {
     }
 
     private void initDatas() {
-        mEditor = getSharedPreferences(ICConstants.PREFERENCE_NAME, MODE_PRIVATE).edit();
+        mPreferences = getSharedPreferences(ICConstants.PREFERENCE_NAME, MODE_PRIVATE);
+        mEditor = mPreferences.edit();
 
-
+        //数据库中获取当前的存储路径，没有则是默认的系统相机路径
+        String path = mPreferences.getString(ICConstants.KEY_IMG_DIR, FileUtils.getInst().getSystemPhotoPath());
+        tvCurDir.setText(path);
     }
 
 
@@ -143,15 +151,28 @@ public class ICSettingActivity extends ICBaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 001 && resultCode == RESULT_OK){
-            Log.d(TAG, "data = "+data+"\n"+"data.data = "+ data.getData());
+        if (requestCode == 001 && resultCode == RESULT_OK) {
+            Log.d(TAG, "data = " + data + "\n" + "data.data = " + data.getData());
         }
-        if (requestCode == REQUEST_CODE_DIR && resultCode == RESULT_OK){
+        if (requestCode == REQUEST_CODE_DIR && resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
             String path = bundle.getString("savePath");
-            mCurDir = path;
-            tvCurDir.setText(mCurDir);
-            Log.d(TAG, "path = "+path);
+            if (!TextUtils.isEmpty(path)) {
+                mCurDir = path;
+                tvCurDir.setText(mCurDir);
+                Log.d(TAG, "path = " + path);
+
+                //保存用户设置
+                if (mEditor != null) {
+                    mEditor.putString(ICConstants.KEY_IMG_DIR, path);
+                    mEditor.commit();
+                }else {
+                    mEditor = getSharedPreferences(ICConstants.PREFERENCE_NAME, MODE_PRIVATE).edit();
+                    mEditor.putString(ICConstants.KEY_IMG_DIR, path);
+                    mEditor.commit();
+                }
+                ToastUtil.showToast(ICSettingActivity.this, "设置成功！", Toast.LENGTH_SHORT);
+            }
         }
     }
 

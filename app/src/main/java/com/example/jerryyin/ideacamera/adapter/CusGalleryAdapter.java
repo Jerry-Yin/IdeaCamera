@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jerryyin.ideacamera.R;
-import com.example.jerryyin.ideacamera.base.ICConstants;
+import com.example.jerryyin.ideacamera.conatants.ICConstants;
 import com.example.jerryyin.ideacamera.model.PhotoItem;
 import com.example.jerryyin.ideacamera.util.common.ImageLoaderUtils;
 import com.example.jerryyin.ideacamera.util.common.ImageUtils;

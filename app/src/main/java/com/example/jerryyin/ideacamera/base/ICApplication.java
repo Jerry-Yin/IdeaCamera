@@ -3,6 +3,7 @@ package com.example.jerryyin.ideacamera.base;
 import android.app.Application;
 import android.util.DisplayMetrics;
 
+import com.example.jerryyin.ideacamera.conatants.ICConstants;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;

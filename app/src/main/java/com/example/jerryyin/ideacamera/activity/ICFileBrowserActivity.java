@@ -44,7 +44,7 @@ public class ICFileBrowserActivity extends ICBaseActivity implements View.OnClic
     Button btnSelect;
 
 
-    private String mRootPath = "/sdcard";
+    private String mRootPath = "/sdcard";   //默认的SdCard根目录
     private List<String> mItems = null;
     private List<String> mPaths = null;
     private ICFileDirAdapter mDirAdapter;
