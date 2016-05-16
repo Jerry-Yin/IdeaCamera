@@ -65,7 +65,7 @@ public class ICModuleManagerActivity extends ICBaseActivity implements CustomLis
         mModelService = new CameraModelService(this);
         mModelLists = mModelService.queryAllModel();
         addDataToList();
-        addTestData();
+//        addTestData();
         mArrayAdapter = new ModuleListAdapter(this, mModuleNameList);
         mLvModule.setAdapter(mArrayAdapter);
         mLvModule.setOnItemClickListener(this);

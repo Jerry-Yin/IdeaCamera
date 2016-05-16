@@ -117,7 +117,10 @@
                     android:layout_toLeftOf="@+id/img2"
                     android:text="part2"
                     android:textSize="15sp"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
                     android:layout_marginRight="10dp"
+                    android:maxWidth="150dp"
                     android:gravity="center_vertical"/>
 
                 <ImageView

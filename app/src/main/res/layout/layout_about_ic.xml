@@ -12,11 +12,33 @@
         android:layout_margin="10dp"
         android:layout_weight="1">
 
+        <RelativeLayout
+            android:id="@+id/top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/img_logo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/ic_launcher"/>
+            <TextView
+                android:id="@+id/tv_version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:layout_below="@+id/img_logo"
+                android:layout_marginTop="10dp"
+                android:text="IdeaCrema 0.0.1"
+                android:textSize="15sp"/>
+        </RelativeLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="IdeaCamera powred by JYin"
             android:gravity="center"
+            android:layout_below="@+id/top_bar"
             android:layout_marginTop="20dp"/>
     </RelativeLayout>
 

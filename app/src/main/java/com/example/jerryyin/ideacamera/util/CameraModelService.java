@@ -1,5 +1,6 @@
 package com.example.jerryyin.ideacamera.util;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -44,6 +45,10 @@ public class CameraModelService {
      */
     public boolean deleteModelByName(String name) {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
+//        String sql = "delete from CameraModel where name=?";
+//        database.execSQL(sql, new String[]{name+""});
+        database.delete("CameraModel", "name = ?", new String[]{name});
+        //注意餐删除后主键id是不变的
 
         return true;
     }
@@ -91,6 +96,12 @@ public class CameraModelService {
     }
 
 
+    /**
+     * 改
+     *
+     * @param model
+     * @return
+     */
     public boolean updateModel(CameraModel model) {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         String sql = "update CameraModel set imgUris=? where name=?;";
@@ -98,6 +109,21 @@ public class CameraModelService {
                 StringUtils.jointString(model.imgUris),
                 model.name};
         database.execSQL(sql, obj);
+        return true;
+    }
+
+    /**
+     * 更新module的名字
+     *
+     * @param oldName
+     * @param newName
+     * @return
+     */
+    public boolean reNameModel(String oldName, String newName) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("name", newName);
+        db.update("CameraModel", values, "name = ?", new String[]{oldName});
         return true;
     }
 

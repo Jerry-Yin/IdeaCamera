@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +25,8 @@ import butterknife.OnClick;
  */
 public class ICSettingActivity extends ICBaseActivity {
 
+    private static final String TAG = "ICSettingActivity";
+    private static final int REQUEST_CODE_DIR = 0X01;
     @Bind(R.id.btn_back)
     LinearLayout mBtnBack;
     @Bind(R.id.tv_model_name)
@@ -49,6 +52,7 @@ public class ICSettingActivity extends ICBaseActivity {
 
     private SharedPreferences.Editor mEditor;
     private String mCurReflect = "";
+    private String mCurDir;
 
 
     @Override
@@ -69,6 +73,7 @@ public class ICSettingActivity extends ICBaseActivity {
 
     private void initDatas() {
         mEditor = getSharedPreferences(ICConstants.PREFERENCE_NAME, MODE_PRIVATE).edit();
+
 
     }
 
@@ -122,8 +127,31 @@ public class ICSettingActivity extends ICBaseActivity {
                 break;
 
             case R.id.btn_file_dir:
-                startActivity(new Intent(this, ICFileDirActivity.class));
+//                startActivity(new Intent(this, ICFileDirActivity.class));
+
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                intent.setType("*/*");
+//                intent.addCategory(Intent.CATEGORY_OPENABLE);
+//                startActivityForResult(intent, 001);
+
+                startActivityForResult(new Intent(this, ICFileBrowserActivity.class), REQUEST_CODE_DIR);
+
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 001 && resultCode == RESULT_OK){
+            Log.d(TAG, "data = "+data+"\n"+"data.data = "+ data.getData());
+        }
+        if (requestCode == REQUEST_CODE_DIR && resultCode == RESULT_OK){
+            Bundle bundle = data.getExtras();
+            String path = bundle.getString("savePath");
+            mCurDir = path;
+            tvCurDir.setText(mCurDir);
+            Log.d(TAG, "path = "+path);
         }
     }
 

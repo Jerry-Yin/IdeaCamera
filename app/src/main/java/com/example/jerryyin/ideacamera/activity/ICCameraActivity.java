@@ -113,6 +113,8 @@ public class ICCameraActivity extends ICBaseActivity {
     }
 
     private void initViews() {
+
+
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         mSurfaceHolder.setKeepScreenOn(true);

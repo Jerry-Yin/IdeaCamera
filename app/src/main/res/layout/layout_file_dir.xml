@@ -12,12 +12,17 @@
         android:layout_margin="10dp"
         android:layout_weight="1">
 
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </RelativeLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="file dir"
-            android:gravity="center"
-            android:layout_marginTop="20dp"/>
+            android:text="当前的照片存储路径"
+            android:gravity="center"/>
     </RelativeLayout>
 
 </LinearLayout>
