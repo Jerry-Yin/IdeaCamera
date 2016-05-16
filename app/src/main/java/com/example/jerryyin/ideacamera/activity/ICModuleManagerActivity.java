@@ -2,6 +2,7 @@ package com.example.jerryyin.ideacamera.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,10 @@ public class ICModuleManagerActivity extends ICBaseActivity implements CustomLis
     TextView tvTitle;
     @Bind(R.id.tv_ok)
     TextView tvOk;
+    @Bind(R.id.tv_module_msg)
+    TextView tvModuleMsg;
+    @Bind(R.id.img_empty)
+    ImageView imgEmpty;
 
     private CameraModelService mModelService;
     private List<CameraModel> mModelLists;
@@ -66,6 +71,14 @@ public class ICModuleManagerActivity extends ICBaseActivity implements CustomLis
         mModelLists = mModelService.queryAllModel();
         addDataToList();
 //        addTestData();
+        if (mModuleNameList.size() == 0) {
+            tvModuleMsg.setVisibility(View.VISIBLE);
+            imgEmpty.setVisibility(View.VISIBLE);
+            tvModuleMsg.setText("您还没有添加过模版！");
+        }else {
+            tvModuleMsg.setVisibility(View.GONE);
+            imgEmpty.setVisibility(View.GONE);
+        }
         mArrayAdapter = new ModuleListAdapter(this, mModuleNameList);
         mLvModule.setAdapter(mArrayAdapter);
         mLvModule.setOnItemClickListener(this);
@@ -89,7 +102,7 @@ public class ICModuleManagerActivity extends ICBaseActivity implements CustomLis
 
     @OnClick(R.id.btn_back)
     public void onClick() {
-
+        this.finish();
     }
 
 
