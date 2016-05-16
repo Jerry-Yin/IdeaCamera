@@ -51,8 +51,8 @@ public class ICSettingActivity extends ICBaseActivity {
     TextView tvCurDir;
     @Bind(R.id.btn_file_dir)
     RelativeLayout btnFileDir;
-    @Bind(R.id.btn_part3)
-    RelativeLayout btnPart3;
+    @Bind(R.id.btn_reflect_view)
+    RelativeLayout btnRefView;
 
     private SharedPreferences.Editor mEditor;
     private SharedPreferences mPreferences;
@@ -119,7 +119,7 @@ public class ICSettingActivity extends ICBaseActivity {
                 .create().show();
     }
 
-    @OnClick({R.id.btn_back, R.id.btn_change_3d, R.id.btn_about, R.id.btn_file_dir})
+    @OnClick({R.id.btn_back, R.id.btn_change_3d, R.id.btn_about, R.id.btn_file_dir, R.id.btn_reflect_view})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
@@ -145,6 +145,10 @@ public class ICSettingActivity extends ICBaseActivity {
                 startActivityForResult(new Intent(this, ICFileBrowserActivity.class), REQUEST_CODE_DIR);
 
                 break;
+
+            case R.id.btn_reflect_view:
+                startActivity(new Intent(this, ICGalleryActivity.class));
+                break;
         }
     }
 
@@ -166,7 +170,7 @@ public class ICSettingActivity extends ICBaseActivity {
                 if (mEditor != null) {
                     mEditor.putString(ICConstants.KEY_IMG_DIR, path);
                     mEditor.commit();
-                }else {
+                } else {
                     mEditor = getSharedPreferences(ICConstants.PREFERENCE_NAME, MODE_PRIVATE).edit();
                     mEditor.putString(ICConstants.KEY_IMG_DIR, path);
                     mEditor.commit();
