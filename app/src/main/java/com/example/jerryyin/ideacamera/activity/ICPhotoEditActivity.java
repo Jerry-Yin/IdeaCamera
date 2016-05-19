@@ -170,7 +170,7 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
 //            mCurBitmap = BitmapFactory.decodeFile(mCurImagePath);
 
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 2;//图片宽高都为原来的4分之一，即图片为原来的8分之一
+            options.inSampleSize = 4;//图片宽高都为原来的4分之一，即图片为原来的8分之一
             mCurBitmap = BitmapFactory.decodeFile(mCurImagePath, options);
 
             if (mCurBitmap != null){
