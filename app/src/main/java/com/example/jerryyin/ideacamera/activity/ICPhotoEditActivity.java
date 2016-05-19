@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -168,9 +169,8 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
         mGalleryAdapter.notifyDataSetChanged();
         if (mCurImagePath != null){
 //            mCurBitmap = BitmapFactory.decodeFile(mCurImagePath);
-
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 4;//图片宽高都为原来的4分之一，即图片为原来的8分之一
+            options.inSampleSize = 2;//图片宽高都为原来的4分之一，即图片为原来的8分之一
             mCurBitmap = BitmapFactory.decodeFile(mCurImagePath, options);
 
             if (mCurBitmap != null){
@@ -180,11 +180,8 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
                 mMapLists.add(addMap("底片", ICImageHelper.handleBottomImgEffect(mCurBitmap)));
                 mGalleryAdapter.notifyDataSetChanged();
             }
+//            mCurBitmap.recycle();
         }
-
-//        mBitmapLists.add();
-//        mGallery
-
     }
 
 
@@ -310,6 +307,22 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        //加载list中的bitmap（分辨率会降低?）
+        Map map = mMapLists.get(position);
+        Iterator iterator = map.entrySet().iterator();
+        if (iterator.hasNext()){
+            Map.Entry entry = (Map.Entry) iterator.next();
+            Bitmap bitmap = (Bitmap) entry.getValue();
+            imageView.setImageBitmap(bitmap);
+        }
+
+        //加载原图
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inSampleSize = 2;//图片宽高都为原来的4分之一，即图片为原来的8分之一
+//        mCurBitmap = BitmapFactory.decodeFile(mCurImagePath, options);
+//        imageView.setImageBitmap(mCurBitmap);
+
 
     }
 }
