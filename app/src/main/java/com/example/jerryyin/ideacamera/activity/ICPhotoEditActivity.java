@@ -325,4 +325,23 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
 
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //手动回收内存
+        if (mCurBitmap != null){
+            mCurBitmap.recycle();
+        }
+        if (mMapLists .size() >0){
+            for (Map<String, Bitmap> map: mMapLists){
+                Iterator iterator = map.entrySet().iterator();
+                if (iterator.hasNext()){
+                    Map.Entry entry = (Map.Entry) iterator.next();
+                    Bitmap bitmap = (Bitmap) entry.getValue();
+                    bitmap.recycle();
+                }
+            }
+        }
+    }
 }
