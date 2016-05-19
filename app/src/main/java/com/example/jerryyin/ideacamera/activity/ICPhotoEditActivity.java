@@ -82,7 +82,7 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
     @Bind(R.id.btn_fun4)
     Button btnFun4;
     @Bind(R.id.image_view)
-    PhotoView imageView;
+    ImageView imageView;
 
 
     /**
@@ -125,7 +125,7 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
         layoutAlpha.getBackground().setAlpha(100);//0~255透明度值   0-完全透明
         tvOk.setFocusable(false);   //未改变之前不能保存操作
 
-        imageView.enable();
+//        imageView.enable();
     }
 
 
