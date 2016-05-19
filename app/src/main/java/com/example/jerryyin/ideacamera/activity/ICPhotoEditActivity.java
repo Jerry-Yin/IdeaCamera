@@ -1,13 +1,17 @@
 package com.example.jerryyin.ideacamera.activity;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,16 +23,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jerryyin.ideacamera.R;
 import com.example.jerryyin.ideacamera.adapter.NormalGalleryAdapter;
 import com.example.jerryyin.ideacamera.base.ICBaseActivity;
+import com.example.jerryyin.ideacamera.conatants.ICConstants;
 import com.example.jerryyin.ideacamera.util.ICImageHelper;
+import com.example.jerryyin.ideacamera.util.common.DialogUtil;
 import com.example.jerryyin.ideacamera.util.common.FileUtils;
 import com.example.jerryyin.ideacamera.util.common.ImageLoaderUtils;
+import com.example.jerryyin.ideacamera.util.common.ImageUtils;
+import com.example.jerryyin.ideacamera.util.common.ToastUtil;
 import com.example.jerryyin.ideacamera.view.CustomGallery;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,6 +57,8 @@ import butterknife.OnClick;
 public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.OnItemClickListener {
 
     private static final String TAG = "ICPhotoEditActivity";
+    private static final int SAVE_OK = 0x004;
+    private static final int SAVE_FAIL = 0x005;
 
 
     @Bind(R.id.btn_back)
@@ -85,10 +97,13 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
 
     private String mCurImagePath;
     private Bitmap mCurBitmap;
-    private List<Bitmap> mBitmapLists = new ArrayList<>();      //有效果的bitmap;
+    private int mCurPosition;
+    //    private List<Bitmap> mBitmapLists = new ArrayList<>();      //有效果的bitmap;
     private List<Map<String, Bitmap>> mMapLists = new ArrayList<>();    //效果名字 ＋ bitmap
-
     private NormalGalleryAdapter mGalleryAdapter;
+
+    private SharedPreferences mPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +119,7 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
         tvTitle.setText("照片编辑");
         layoutAlpha = (RelativeLayout) findViewById(R.id.layout_alpha);
         layoutAlpha.getBackground().setAlpha(100);//0~255透明度值   0-完全透明
-
+        tvOk.setFocusable(false);   //未改变之前不能保存操作
     }
 
 
@@ -113,6 +128,8 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
         mGalleryAdapter = new NormalGalleryAdapter(mMapLists, this);
         mGallery.setAdapter(mGalleryAdapter);
         mGallery.setOnItemClickListener(this);
+        mPreferences = getSharedPreferences(ICConstants.PREFERENCE_NAME, MODE_PRIVATE);
+
     }
 
     @Override
@@ -129,7 +146,7 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
                 break;
 
             case R.id.tv_ok:
-
+                saveCurBitmap();
                 break;
 
             case R.id.btn_select_pho:
@@ -163,24 +180,74 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
         }
     }
 
+    /**
+     * 保存当前图片
+     */
+    private void saveCurBitmap() {
+        DialogUtil.showProgressDialog(this, "存储中");
+        final Message message = new Message();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (mCurBitmap != null) {
+                    String path = mPreferences.getString(ICConstants.KEY_IMG_DIR, FileUtils.getInst().getSystemPhotoPath());
+                    try {
+                        imageView.setDrawingCacheEnabled(true);
+                        String realPath = ImageUtils.saveToFile(path, true, imageView.getDrawingCache());
+                        imageView.setDrawingCacheEnabled(false);
+                        if (realPath != null){
+                            message.what = SAVE_OK;
+                            message.obj = realPath;
+                            mHandler.sendMessage(message);
+
+                        }
+
+                    } catch (IOException e) {
+                        message.what = SAVE_FAIL;
+                        mHandler.sendMessage(message);
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
+    }
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case SAVE_OK:
+                    DialogUtil.dismissDialog();
+                    ToastUtil.showToast(ICPhotoEditActivity.this, "存储完毕", Toast.LENGTH_SHORT);
+                    break;
+
+                case SAVE_FAIL:
+                    DialogUtil.dismissDialog();
+                    ToastUtil.showToast(ICPhotoEditActivity.this, "存储失败", Toast.LENGTH_SHORT);
+                    break;
+            }
+        }
+    };
+
     private void showThumbFun2() {
         // TODO: 5/18/16 显示隐藏的缩略图部分； 为list添加数据； 点击item的时候更换当前照片的效果
         mMapLists.clear();
         mGalleryAdapter.notifyDataSetChanged();
-        if (mCurImagePath != null){
+        if (mCurImagePath != null) {
 //            mCurBitmap = BitmapFactory.decodeFile(mCurImagePath);
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 2;//图片宽高都为原来的4分之一，即图片为原来的8分之一
             mCurBitmap = BitmapFactory.decodeFile(mCurImagePath, options);
 
-            if (mCurBitmap != null){
+            if (mCurBitmap != null) {
                 mMapLists.add(addMap("原图", mCurBitmap));    //原图
                 mMapLists.add(addMap("怀旧", ICImageHelper.handleOldImgEffect(mCurBitmap)));
                 mMapLists.add(addMap("浮雕", ICImageHelper.handleReliefImgEffect(mCurBitmap)));
                 mMapLists.add(addMap("底片", ICImageHelper.handleBottomImgEffect(mCurBitmap)));
                 mGalleryAdapter.notifyDataSetChanged();
             }
-//            mCurBitmap.recycle();
         }
     }
 
@@ -239,18 +306,20 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
 //            }
 //        });
         ImageLoaderUtils.displayLocalImage(path, imageView, null);
+        tvOk.setFocusable(false);
         showThumbFun2();
     }
 
 
     /**
      * 设置照片保存信息
+     *
      * @param uri 即将要保存的照片的uri
      * @return
      */
     private Uri setSaveMessage() {
         String systemPath = FileUtils.getInst().getSystemPhotoPath();//系统相册路径
-        Log.d(TAG, "systemPath = "+systemPath);
+        Log.d(TAG, "systemPath = " + systemPath);
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss"); // 格式化时间
         String filename = format.format(date) + ".jpg";
@@ -292,7 +361,7 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
                 .create().show();
     }
 
-    private Map<String, Bitmap> addMap(String name, Bitmap bmp){
+    private Map<String, Bitmap> addMap(String name, Bitmap bmp) {
         Map<String, Bitmap> map = new HashMap<String, Bitmap>();
         map.put(name, bmp);
         return map;
@@ -300,6 +369,7 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
 
     /**
      * 效果图点击
+     *
      * @param parent
      * @param view
      * @param position
@@ -307,11 +377,13 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        tvOk.setFocusable(true);    //点击过的话可以保存
+        mCurPosition = position;
 
         //加载list中的bitmap（分辨率会降低?）
         Map map = mMapLists.get(position);
         Iterator iterator = map.entrySet().iterator();
-        if (iterator.hasNext()){
+        if (iterator.hasNext()) {
             Map.Entry entry = (Map.Entry) iterator.next();
             Bitmap bitmap = (Bitmap) entry.getValue();
             imageView.setImageBitmap(bitmap);
@@ -322,21 +394,19 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
 //        options.inSampleSize = 2;//图片宽高都为原来的4分之一，即图片为原来的8分之一
 //        mCurBitmap = BitmapFactory.decodeFile(mCurImagePath, options);
 //        imageView.setImageBitmap(mCurBitmap);
-
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         //手动回收内存
-        if (mCurBitmap != null){
+        if (mCurBitmap != null) {
             mCurBitmap.recycle();
         }
-        if (mMapLists .size() >0){
-            for (Map<String, Bitmap> map: mMapLists){
+        if (mMapLists.size() > 0) {
+            for (Map<String, Bitmap> map : mMapLists) {
                 Iterator iterator = map.entrySet().iterator();
-                if (iterator.hasNext()){
+                if (iterator.hasNext()) {
                     Map.Entry entry = (Map.Entry) iterator.next();
                     Bitmap bitmap = (Bitmap) entry.getValue();
                     bitmap.recycle();
