@@ -252,7 +252,12 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
                 mMapLists.add(addMap("怀旧", ICImageHelper.handleOldImgEffect(mCurBitmap)));
                 mMapLists.add(addMap("浮雕", ICImageHelper.handleReliefImgEffect(mCurBitmap)));
                 mMapLists.add(addMap("底片", ICImageHelper.handleBottomImgEffect(mCurBitmap)));
+                mMapLists.add(addMap("11", ICImageHelper.handleImgEffect(mCurBitmap, 100, 100 ,100)));
+                mMapLists.add(addMap("22", ICImageHelper.handleImgEffect(mCurBitmap, 30, 20, 220)));
+                mMapLists.add(addMap("33", ICImageHelper.handleImgEffect(mCurBitmap, 18, 1, 1)));
+                mMapLists.add(addMap("44", ICImageHelper.handleImgEffect(mCurBitmap, 50, 50, 50)));
                 mGalleryAdapter.notifyDataSetChanged();
+                mGallery.setSelection(2);
             }
         }
     }

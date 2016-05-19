@@ -30,6 +30,7 @@ public class ICAboutActivity extends ICBaseActivity {
         setContentView(R.layout.layout_about_ic);
         ButterKnife.bind(this);
 
+
         initViews();
     }
 

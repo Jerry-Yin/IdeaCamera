@@ -171,7 +171,7 @@ public class ICImageHelper {
             int g1 = Color.green(oldPix[i - 1]);
             int b1 = Color.blue(oldPix[i - 1]);
 
-            //老照片算法
+            //浮雕算法
             r = r1 - r + 127;
             g = g1 - g + 127;
             b = b1 - b + 127;
@@ -183,6 +183,55 @@ public class ICImageHelper {
 
 
             newPix[i] = Color.argb(a1, r, g, b);
+        }
+        bmp.setPixels(newPix, 0, width, 0, 0, width, height);
+
+        return bmp;
+    }
+
+
+    /**
+     * 统一的通过三原色改变效果的方法
+     * @param bitmap
+     * @param r1    新的参数
+     * @param g1
+     * @param b1
+     * @return
+     */
+    public static Bitmap handleImgEffect(Bitmap bitmap, int r1, int g1, int b1) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        int oldPix[] = new int[width * height];
+        int newPix[] = new int[width * height];
+
+        Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        bitmap.getPixels(oldPix, 0, width, 0, 0, width, height);
+
+        for (int i = 1; i < width * height; i++) {
+            int a, r, g, b;
+//            r = Color.red(oldPix[i]);
+//            g = Color.green(oldPix[i]);
+//            b = Color.blue(oldPix[i]);
+            a = Color.alpha(oldPix[i]);
+
+//            //老照片算法
+//            r = (int) (0.393 * r + 0.769 * g + 0.189 * b);
+//            g = (int) (0.349 * r + 0.686 * g + 0.168 * b);
+//            b = (int) (0.272 * r + 0.534 * g + 0.131 * b);
+
+            r = r1;
+            g = g1;
+            b = b1;
+
+            //保证 三原色不超出范围 0-－255
+            r = makeSureEffect(r);
+            g = makeSureEffect(g);
+            b = makeSureEffect(b);
+
+
+            newPix[i] = Color.argb(a, r, g, b);
         }
         bmp.setPixels(newPix, 0, width, 0, 0, width, height);
 
