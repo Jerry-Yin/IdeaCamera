@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bm.library.PhotoView;
 import com.example.jerryyin.ideacamera.R;
 import com.example.jerryyin.ideacamera.adapter.NormalGalleryAdapter;
 import com.example.jerryyin.ideacamera.base.ICBaseActivity;
@@ -50,6 +51,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by JerryYin on 5/13/16.
@@ -80,7 +82,7 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
     @Bind(R.id.btn_fun4)
     Button btnFun4;
     @Bind(R.id.image_view)
-    ImageView imageView;
+    PhotoView imageView;
 
 
     /**
@@ -104,6 +106,8 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
 
     private SharedPreferences mPreferences;
 
+//    private PhotoViewAttacher mViewAttacher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +124,8 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
         layoutAlpha = (RelativeLayout) findViewById(R.id.layout_alpha);
         layoutAlpha.getBackground().setAlpha(100);//0~255透明度值   0-完全透明
         tvOk.setFocusable(false);   //未改变之前不能保存操作
+
+        imageView.enable();
     }
 
 
@@ -306,6 +312,7 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
 //            }
 //        });
         ImageLoaderUtils.displayLocalImage(path, imageView, null);
+//        mViewAttacher = new PhotoViewAttacher(imageView);
         tvOk.setFocusable(false);
         showThumbFun2();
     }
@@ -387,6 +394,7 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
             Map.Entry entry = (Map.Entry) iterator.next();
             Bitmap bitmap = (Bitmap) entry.getValue();
             imageView.setImageBitmap(bitmap);
+//            mViewAttacher.update();
         }
 
         //加载原图
