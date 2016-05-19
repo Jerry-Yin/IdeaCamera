@@ -44,4 +44,6 @@ public class ICConstants {
     public static final String KEY_IMG_DIR = "image_directory";
 
 
+    public static final String SELECT_PHOTO = "select_photo";   //调用本app拍照
+
 }
