@@ -35,4 +35,7 @@ dependencies {
 
     //开源控件 － 缩放imageview2
     compile 'com.bm.photoview:library:1.4.0'
+
+    //加载动画 － shapeloading
+    compile 'com.github.zzz40500:android-shapeLoadingView:1.0.3.2'
 }

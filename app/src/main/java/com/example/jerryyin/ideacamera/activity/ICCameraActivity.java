@@ -28,8 +28,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.jerryyin.ideacamera.base.ICApplication;
 import com.example.jerryyin.ideacamera.R;
+import com.example.jerryyin.ideacamera.base.ICApplication;
 import com.example.jerryyin.ideacamera.base.ICBaseActivity;
 import com.example.jerryyin.ideacamera.conatants.ICConstants;
 import com.example.jerryyin.ideacamera.model.PhotoItem;
@@ -40,6 +40,7 @@ import com.example.jerryyin.ideacamera.util.common.FileUtils;
 import com.example.jerryyin.ideacamera.util.common.IOUtil;
 import com.example.jerryyin.ideacamera.util.common.ImageUtils;
 import com.example.jerryyin.ideacamera.util.common.ToastUtil;
+import com.mingle.widget.LoadingView;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -87,7 +88,8 @@ public class ICCameraActivity extends ICBaseActivity {
     private SharedPreferences mPreferences;
     private String mImgSavePath;    //照片存储路径m
 
-
+    @Bind(R.id.loading_view)
+    LoadingView loadingView;
     @Bind(R.id.surface_view)
     SurfaceView mSurfaceView;
     @Bind(R.id.btn_take_pic)
@@ -691,7 +693,9 @@ public class ICCameraActivity extends ICBaseActivity {
         }
 
         protected void onPreExecute() {
-            DialogUtil.showProgressDialog(ICCameraActivity.this, "处理中");
+//            DialogUtil.showProgressDialog(ICCameraActivity.this, "处理中");
+            loadingView.setVisibility(View.VISIBLE);
+            loadingView.setLoadingText("存储中...");
         }
 
         @Override
@@ -711,7 +715,8 @@ public class ICCameraActivity extends ICBaseActivity {
 
             if (!TextUtils.isEmpty(result)) {
                 //result-->照片保存的路径
-                DialogUtil.dismissDialog();
+//                DialogUtil.dismissDialog();
+                loadingView.setVisibility(View.INVISIBLE);
 
 //                runOnUiThread(new Runnable() {
 //                    @Override
@@ -729,14 +734,14 @@ public class ICCameraActivity extends ICBaseActivity {
 
                 Intent intent1 = ICCameraActivity.this.getIntent();
                 String value = intent1.getStringExtra("usage");
-                if (value.equals(ICConstants.SELECT_PHOTO)) {
+                if (!TextUtils.isEmpty(value) && value.equals(ICConstants.SELECT_PHOTO)) {
                     //如果是修图界面调用来进行拍照 ICPhotoEditActivity
                     Intent intent = new Intent();
                     intent.putExtra("path", result);
                     ICCameraActivity.this.setResult(RESULT_OK, intent);
                     ICCameraActivity.this.finish();
 
-                }else {
+                } else {
                     IdeaCameraManager.getInst().processPhotoItem(ICCameraActivity.this,
                             new PhotoItem(result, System.currentTimeMillis()));
                 }

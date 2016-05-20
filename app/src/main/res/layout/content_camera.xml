@@ -6,10 +6,23 @@
     tools:context=".activity.ICCameraActivity">
 
 
-    <SurfaceView
-        android:id="@+id/surface_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <SurfaceView
+            android:id="@+id/surface_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.mingle.widget.LoadingView
+            android:id="@+id/loading_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"></com.mingle.widget.LoadingView>
+    </FrameLayout>
+
 
     <View
         android:id="@+id/focus_index"
@@ -64,7 +77,7 @@
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_camera_enhance_white_24dp"/>
+            android:src="@drawable/ic_camera_enhance_white_24dp" />
 
         <ImageView
             android:id="@+id/img_back"

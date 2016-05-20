@@ -10,8 +10,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,8 +17,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bm.library.PhotoView;
 import com.example.jerryyin.ideacamera.R;
 import com.example.jerryyin.ideacamera.base.ICBaseActivity;
 import com.example.jerryyin.ideacamera.model.CameraModel;
@@ -41,7 +41,7 @@ import butterknife.OnClick;
 public class ICChooseActivity extends ICBaseActivity {
 
     @Bind(R.id.img_photo)
-    ImageView mImgPhoto;
+    PhotoView mImgPhoto;
     @Bind(R.id.btn_add_model)
     FloatingActionButton mBtnAddModel;
     @Bind(R.id.btn_cancle)
@@ -50,6 +50,12 @@ public class ICChooseActivity extends ICBaseActivity {
     Button mBtnSave;
 
     private static final String TAG = "ICChooseActivity";
+    @Bind(R.id.btn_back)
+    LinearLayout btnBack;
+    @Bind(R.id.tv_title)
+    TextView tvTitle;
+    @Bind(R.id.tv_ok)
+    TextView tvOk;
 
     //当前图片
     private Bitmap mCurrentBitmap;
@@ -65,8 +71,8 @@ public class ICChooseActivity extends ICBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);  //应用程序的标题栏
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);   //系统的状态栏
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);  //应用程序的标题栏
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);   //系统的状态栏
         setContentView(R.layout.layout_choose);
         ButterKnife.bind(this);
 
@@ -79,8 +85,15 @@ public class ICChooseActivity extends ICBaseActivity {
             }
         });
 
+        initViews();
         initData();
 
+    }
+
+    private void initViews() {
+        tvOk.setVisibility(View.INVISIBLE);
+        tvTitle.setText("添加模版");
+        mImgPhoto.enable();
     }
 
     private void initData() {
@@ -102,7 +115,7 @@ public class ICChooseActivity extends ICBaseActivity {
     }
 
 
-    @OnClick({R.id.btn_add_model, R.id.btn_cancle, R.id.btn_save})
+    @OnClick({R.id.btn_add_model, R.id.btn_cancle, R.id.btn_save, R.id.btn_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_add_model:
@@ -166,6 +179,10 @@ public class ICChooseActivity extends ICBaseActivity {
                 this.finish();
                 break;
 
+            case R.id.btn_back:
+                this.finish();
+                break;
+
             case R.id.btn_save:
                 Intent intent = new Intent(ICChooseActivity.this, ICGalleryActivity.class);
                 if (!TextUtils.isEmpty(mCurModel)) {
@@ -213,4 +230,6 @@ public class ICChooseActivity extends ICBaseActivity {
         }
         return isSaveFinished;
     }
+
+
 }

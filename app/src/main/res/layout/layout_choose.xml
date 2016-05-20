@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include layout="@layout/layout_title_bar"></include>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.bm.library.PhotoView
             android:id="@+id/img_photo"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:background="@color/black_bgd"/>
+            android:scaleType="centerInside"/>
 
     </LinearLayout>
 
@@ -45,4 +49,4 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/ic_done"/>
     </RelativeLayout>
-</FrameLayout>
+</LinearLayout>

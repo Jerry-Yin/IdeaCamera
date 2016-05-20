@@ -44,7 +44,8 @@
         <activity android:name=".activity.ICAboutActivity" />
         <activity android:name=".activity.ICFileDirActivity" />
         <activity android:name=".activity.ICPhotoEditActivity" />
-        <activity android:name=".activity.ICFileBrowserActivity"></activity>
+        <activity android:name=".activity.ICFileBrowserActivity" />
+        <activity android:name=".activity.ICInterestingActivity"></activity>
     </application>
 
 </manifest>

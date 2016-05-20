@@ -72,7 +72,7 @@ public class ICMainActivity extends ICBaseActivity {
                 break;
 
             case R.id.main_part3_others:
-
+                startActivity(new Intent(this, ICInterestingActivity.class));
                 break;
 
             case R.id.main_part4_setting:
