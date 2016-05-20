@@ -275,11 +275,11 @@ public class ICCameraActivity extends ICBaseActivity {
                 mFocusIndex.startAnimation(sa);
 //                mHandler.postDelayed(() -> mFocusIndex.setVisibility(View.INVISIBLE), 800);
                 mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mFocusIndex.setVisibility(View.INVISIBLE);
-                    }
-                },
+                                         @Override
+                                         public void run() {
+                                             mFocusIndex.setVisibility(View.INVISIBLE);
+                                         }
+                                     },
                         800);
                 break;
             case R.id.btn_take_pic:
@@ -377,7 +377,6 @@ public class ICCameraActivity extends ICBaseActivity {
             mBtnFlash.setImageResource(R.drawable.camera_flash_off);
         }
     }
-
 
 
     /**
@@ -705,15 +704,42 @@ public class ICCameraActivity extends ICBaseActivity {
             }
         }
 
+        //此方法在主线程中执行
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(final String result) {
             super.onPostExecute(result);
 
             if (!TextUtils.isEmpty(result)) {
                 //result-->照片保存的路径
                 DialogUtil.dismissDialog();
-                IdeaCameraManager.getInst().processPhotoItem(ICCameraActivity.this,
-                        new PhotoItem(result, System.currentTimeMillis()));
+
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if (ICCameraActivity.this.getIntent().getStringExtra("usage") == ICConstants.SELECT_PHOTO) {
+//                            //如果是修图界面调用来进行拍照 ICPhotoEditActivity
+//                            Intent intent = new Intent();
+//                            intent.putExtra("path", result);
+//                            ICCameraActivity.this.setResult(RESULT_OK, intent);
+//                            ICCameraActivity.this.finish();
+//
+//                        }
+//                    }
+//                });
+
+                Intent intent1 = ICCameraActivity.this.getIntent();
+                String value = intent1.getStringExtra("usage");
+                if (value.equals(ICConstants.SELECT_PHOTO)) {
+                    //如果是修图界面调用来进行拍照 ICPhotoEditActivity
+                    Intent intent = new Intent();
+                    intent.putExtra("path", result);
+                    ICCameraActivity.this.setResult(RESULT_OK, intent);
+                    ICCameraActivity.this.finish();
+
+                }else {
+                    IdeaCameraManager.getInst().processPhotoItem(ICCameraActivity.this,
+                            new PhotoItem(result, System.currentTimeMillis()));
+                }
             } else {
                 ToastUtil.showToast(ICCameraActivity.this, "拍照失败，请稍后重试！", Toast.LENGTH_LONG);
             }
@@ -735,7 +761,7 @@ public class ICCameraActivity extends ICBaseActivity {
         options.inJustDecodeBounds = true;
 
         bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-        Log.d(TAG, "bmp.width = "+bmp.getWidth() + "height = "+bmp.getHeight());
+        Log.d(TAG, "bmp.width = " + bmp.getWidth() + "height = " + bmp.getHeight());
         Matrix matrix = new Matrix();   //用于旋转的矩阵
         matrix.setRotate(90);   //旋转90度
         bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);

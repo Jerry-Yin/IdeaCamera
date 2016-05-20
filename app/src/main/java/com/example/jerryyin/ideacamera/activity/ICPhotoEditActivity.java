@@ -299,8 +299,9 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
 
             case TAKE_PHOTO_THIS:
                 if (resultCode == RESULT_OK) {
-                    Uri uri = data.getData();
-
+//                    Uri uri = data.getData();
+                    mCurImagePath = data.getStringExtra("path");
+                    showImageView(mCurImagePath);
                 }
                 break;
             default:
@@ -343,17 +344,11 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
     private void showSelDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("选择图片")
-                .setItems(new CharSequence[]{"拍照", "系统相机拍照", "选择本地照片"}, new DialogInterface.OnClickListener() {
+                .setItems(new CharSequence[]{"拍照", "选择本地照片", "本地相机拍照"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-//                                Intent intent = new Intent(ICPhotoEditActivity.this, ICCameraActivity.class);
-//                                intent.putExtra("usage", ICConstants.SELECT_PHOTO);
-//                                startActivityForResult(intent, TAKE_PHOTO_THIS);
-                                break;
-
-                            case 1:
                                 //系统相机拍照
                                 Intent intent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                                 Uri uri = setSaveMessage();  //系统相册路径
@@ -362,10 +357,16 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
                                 startActivityForResult(intent1, TAKE_PHOTO);
                                 break;
 
-                            case 2:
+                            case 1:
                                 //选择本地照片
                                 Intent intent2 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                 startActivityForResult(intent2, IMAGE_OPEN);
+                                break;
+
+                            case 2:
+                                Intent intent = new Intent(ICPhotoEditActivity.this, ICCameraActivity.class);
+                                intent.putExtra("usage", ICConstants.SELECT_PHOTO);
+                                startActivityForResult(intent, TAKE_PHOTO_THIS);
                                 break;
                         }
                     }
