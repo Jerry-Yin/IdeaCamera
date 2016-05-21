@@ -1,7 +1,7 @@
 package com.example.jerryyin.ideacamera.activity;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,7 +26,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bm.library.PhotoView;
 import com.example.jerryyin.ideacamera.R;
 import com.example.jerryyin.ideacamera.adapter.NormalGalleryAdapter;
 import com.example.jerryyin.ideacamera.base.ICBaseActivity;
@@ -36,7 +36,6 @@ import com.example.jerryyin.ideacamera.util.common.FileUtils;
 import com.example.jerryyin.ideacamera.util.common.ImageLoaderUtils;
 import com.example.jerryyin.ideacamera.util.common.ImageUtils;
 import com.example.jerryyin.ideacamera.util.common.ToastUtil;
-import com.example.jerryyin.ideacamera.view.CustomGallery;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,7 +50,6 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by JerryYin on 5/13/16.
@@ -74,15 +72,23 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
     @Bind(R.id.gallery_show)
     Gallery mGallery;
     @Bind(R.id.btn_select_pho)
-    Button btnFun1;
+    ImageView btnFun1;
     @Bind(R.id.btn_fun2)
-    Button btnFun2;
+    ImageView btnFun2;
     @Bind(R.id.btn_fun3)
-    Button btnFun3;
+    ImageView btnFun3;
     @Bind(R.id.btn_fun4)
-    Button btnFun4;
+    ImageView btnFun4;
     @Bind(R.id.image_view)
     ImageView imageView;
+    @Bind(R.id.txt_fun1)
+    TextView txtFun1;
+    @Bind(R.id.txt_fun2)
+    TextView txtFun2;
+    @Bind(R.id.txt_fun3)
+    TextView txtFun3;
+    @Bind(R.id.txt_fun4)
+    TextView txtFun4;
 
 
     /**
@@ -161,22 +167,15 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
                 break;
 
             case R.id.btn_fun2:
-                if (fun2State) {
-                    layoutAlpha.setVisibility(View.VISIBLE);
-//                    showThumbFun2();   //显示缩略图
-
-                    fun2State = false;
-                } else {
-                    layoutAlpha.setVisibility(View.INVISIBLE);
-                    fun2State = true;
-                }
+                setBtn2State();
                 break;
 
             case R.id.btn_fun3:
-
+                setBtn3State();
                 break;
 
             case R.id.btn_fun4:
+
 
                 break;
 
@@ -184,6 +183,50 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
 
                 break;
         }
+    }
+
+    /**
+     * 设置按钮状态
+     */
+    private void setBtn3State() {
+        if (fun3State) {
+//                    layoutAlpha.setVisibility(View.VISIBLE);
+//                    showThumbFun2();   //显示缩略图
+            btnFun3.setImageDrawable(this.getResources().getDrawable(R.drawable.img_pen_accent));
+            txtFun3.setTextColor(getResources().getColor(R.color.colorAccent));
+            fun3State = false;
+        } else {
+//                    layoutAlpha.setVisibility(View.INVISIBLE);
+            fun3State = true;
+            btnFun3.setImageDrawable(this.getResources().getDrawable(R.drawable.img_pen_black));
+            txtFun3.setTextColor(getResources().getColor(R.color.black_bgd));
+        }
+        fun2State = true;
+        btnFun2.setImageDrawable(this.getResources().getDrawable(R.drawable.img_color_black));
+        txtFun2.setTextColor(getResources().getColor(R.color.black_bgd));
+        fun4State = true;
+        txtFun4.setTextColor(getResources().getColor(R.color.black_bgd));
+    }
+
+    private void setBtn2State() {
+        if (fun2State) {
+            layoutAlpha.setVisibility(View.VISIBLE);
+//                    showThumbFun2();   //显示缩略图
+            btnFun2.setImageDrawable(this.getResources().getDrawable(R.drawable.img_color_accent));
+            txtFun2.setTextColor(getResources().getColor(R.color.colorAccent));
+
+            fun2State = false;
+        } else {
+            layoutAlpha.setVisibility(View.INVISIBLE);
+            fun2State = true;
+            btnFun2.setImageDrawable(this.getResources().getDrawable(R.drawable.img_color_black));
+            txtFun2.setTextColor(getResources().getColor(R.color.black_bgd));
+        }
+        fun3State = true;
+        btnFun3.setImageDrawable(this.getResources().getDrawable(R.drawable.img_pen_black));
+        txtFun3.setTextColor(getResources().getColor(R.color.black_bgd));
+        fun4State = true;
+        txtFun4.setTextColor(getResources().getColor(R.color.black_bgd));
     }
 
     /**
@@ -201,7 +244,7 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
                         imageView.setDrawingCacheEnabled(true);
                         String realPath = ImageUtils.saveToFile(path, true, imageView.getDrawingCache());
                         imageView.setDrawingCacheEnabled(false);
-                        if (realPath != null){
+                        if (realPath != null) {
                             message.what = SAVE_OK;
                             message.obj = realPath;
                             mHandler.sendMessage(message);
@@ -219,11 +262,11 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
 
     }
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case SAVE_OK:
                     DialogUtil.dismissDialog();
                     ToastUtil.showToast(ICPhotoEditActivity.this, "存储完毕", Toast.LENGTH_SHORT);
@@ -252,7 +295,7 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
                 mMapLists.add(addMap("怀旧", ICImageHelper.handleOldImgEffect(mCurBitmap)));
                 mMapLists.add(addMap("浮雕", ICImageHelper.handleReliefImgEffect(mCurBitmap)));
                 mMapLists.add(addMap("底片", ICImageHelper.handleBottomImgEffect(mCurBitmap)));
-                mMapLists.add(addMap("11", ICImageHelper.handleImgEffect(mCurBitmap, 100, 100 ,100)));
+                mMapLists.add(addMap("11", ICImageHelper.handleImgEffect(mCurBitmap, 100, 100, 100)));
                 mMapLists.add(addMap("22", ICImageHelper.handleImgEffect(mCurBitmap, 30, 20, 220)));
                 mMapLists.add(addMap("33", ICImageHelper.handleImgEffect(mCurBitmap, 18, 1, 1)));
                 mMapLists.add(addMap("44", ICImageHelper.handleImgEffect(mCurBitmap, 50, 50, 50)));

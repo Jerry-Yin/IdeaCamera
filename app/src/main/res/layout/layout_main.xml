@@ -32,7 +32,7 @@
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_margin="10dp"
-                    android:src="@drawable/img_circle_1" />
+                    android:src="@drawable/img_module_manage1" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -54,7 +54,7 @@
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_margin="10dp"
-                    android:src="@drawable/img_circle_1" />
+                    android:src="@drawable/img_edit1" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -85,7 +85,7 @@
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_margin="10dp"
-                    android:src="@drawable/img_circle_1" />
+                    android:src="@drawable/img_interesting1" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -107,7 +107,7 @@
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_margin="10dp"
-                    android:src="@drawable/img_circle_1" />
+                    android:src="@drawable/img_setting1" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -127,6 +127,7 @@
         android:layout_alignParentBottom="true">
 
         <ImageView
+            android:id="@+id/buttom_bar_black"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_gravity="bottom"

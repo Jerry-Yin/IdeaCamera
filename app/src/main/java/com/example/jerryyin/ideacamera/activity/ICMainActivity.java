@@ -1,10 +1,14 @@
 package com.example.jerryyin.ideacamera.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -79,5 +83,16 @@ public class ICMainActivity extends ICBaseActivity {
                 startActivity(new Intent(this, ICSettingActivity.class));
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ImageView img = (ImageView) findViewById(R.id.buttom_bar_black);
+        BitmapDrawable drawable = (BitmapDrawable) img.getDrawable();
+        drawable.getBitmap().recycle();
+//        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.bottom_title);
+//        bitmap.recycle();
+
     }
 }

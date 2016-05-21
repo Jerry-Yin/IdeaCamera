@@ -19,6 +19,9 @@
     <color name="gray">#aaa</color>
     <color name="gray2">#E0E0E0</color>
     <color name="red_delete">#ffff3722</color>
+    <color name="buttom_bar_bgd">#E8EAF6</color>
+    <color name="buttom_bar_bgd2">#F5F5F5</color>
+
 
 
 </resources>
