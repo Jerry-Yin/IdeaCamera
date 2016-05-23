@@ -158,7 +158,11 @@ public class ICPhotoEditActivity extends ICBaseActivity implements AdapterView.O
                 break;
 
             case R.id.tv_ok:
-                saveCurBitmap();
+                if(mCurBitmap != null){
+                    saveCurBitmap();
+                }else {
+                    ToastUtil.showToast(ICPhotoEditActivity.this, "当前没有照片可保存！", Toast.LENGTH_SHORT);
+                }
                 break;
 
             case R.id.btn_select_pho:
