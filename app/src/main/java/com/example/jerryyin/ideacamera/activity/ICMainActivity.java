@@ -88,9 +88,10 @@ public class ICMainActivity extends ICBaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ImageView img = (ImageView) findViewById(R.id.buttom_bar_black);
-        BitmapDrawable drawable = (BitmapDrawable) img.getDrawable();
-        drawable.getBitmap().recycle();
+//        ImageView img = (ImageView) findViewById(R.id.buttom_bar_black);
+//        BitmapDrawable drawable = (BitmapDrawable) img.getDrawable();
+//        drawable.getBitmap().recycle();
+
 //        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.bottom_title);
 //        bitmap.recycle();
 
